@@ -1,27 +1,56 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Cloud from '../components/Cloud.astro';
 ---
 
 <BaseLayout title="我的名字 — 軟體工程師">
-  <p data-reveal class="text-sm font-medium tracking-wide text-accent">軟體工程師</p>
-  <h1 data-reveal class="mt-3 text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl md:text-6xl">
-    你好，我是我的名字
-  </h1>
-  <p data-reveal class="mt-6 max-w-xl text-lg text-muted">
-    軟體工程師。這裡放我的作品與技術文章。
-  </p>
-  <div data-reveal class="mt-10 flex gap-4">
-    <a
-      href="/portfolio"
-      class="rounded-md bg-accent px-5 py-2.5 text-sm font-semibold text-accent-foreground transition-colors duration-200 hover:opacity-90"
-    >
-      看作品集
-    </a>
-    <a
-      href="/blog"
-      class="rounded-md border border-border px-5 py-2.5 text-sm font-semibold text-foreground transition-colors duration-200 hover:border-accent"
-    >
-      看文章
-    </a>
-  </div>
+  <section class="relative aspect-[4/5] overflow-hidden rounded-2xl border border-border shadow-sm sm:aspect-[16/9]">
+    <img
+      src="/images/hero-day.webp"
+      alt="剪紙風格的台北城市插畫，彩虹跨過台北101"
+      class="absolute inset-0 h-full w-full object-cover object-left dark:hidden"
+    />
+    <img
+      src="/images/hero-night.webp"
+      alt="剪紙風格的台北城市夜景插畫，滿月高掛台北101上方"
+      class="absolute inset-0 hidden h-full w-full object-cover object-left dark:block"
+    />
+
+    <Cloud
+      class="absolute top-[8%] left-[6%] w-20 sm:w-28"
+      style="--cloud-from-x:-36px; --cloud-from-y:-16px; --cloud-delay:80ms;"
+    />
+    <Cloud
+      class="absolute top-[4%] left-[36%] w-16 sm:w-24"
+      style="--cloud-from-x:-24px; --cloud-from-y:-10px; --cloud-delay:280ms;"
+    />
+    <Cloud
+      class="absolute top-[16%] right-[6%] w-24 sm:w-32"
+      style="--cloud-from-x:40px; --cloud-from-y:-14px; --cloud-delay:460ms;"
+    />
+
+    <div class="relative z-10 flex h-full max-w-[15rem] flex-col justify-center gap-4 p-6 sm:max-w-sm sm:p-10">
+      <p class="text-sm font-medium tracking-wide text-[#96491a]">軟體工程師</p>
+      <h1 class="font-serif text-3xl leading-tight font-semibold text-[#2f3b2a] sm:text-4xl">
+        你好，世界
+      </h1>
+      <p class="text-sm text-[#5c5648] sm:text-base">
+        軟體工程師。這裡放我的作品與技術文章。
+      </p>
+      <div class="flex gap-3 pt-2">
+        <a
+          href="/portfolio"
+          class="rounded-md bg-[#96491a] px-4 py-2 text-sm font-semibold text-[#fffaf0] transition-opacity hover:opacity-90"
+        >
+          看作品集
+        </a>
+        <a
+          href="/blog"
+          class="rounded-md border border-[#2f3b2a]/20 px-4 py-2 text-sm font-semibold text-[#2f3b2a] transition-colors hover:border-[#2f3b2a]/40"
+        >
+          看文章
+        </a>
+      </div>
+    </div>
+  </section>
 </BaseLayout>

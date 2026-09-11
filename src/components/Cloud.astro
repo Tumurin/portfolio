@@ -1,0 +1,22 @@
+---
+interface Props {
+  class?: string;
+  style?: string;
+}
+
+const { class: className = '', style } = Astro.props;
+---
+
+<svg
+  viewBox="0 0 120 60"
+  aria-hidden="true"
+  class={`paper-cloud pointer-events-none text-[#f7f1e3] drop-shadow-sm dark:text-[#7c94a0] ${className}`}
+  style={style}
+>
+  <g fill="currentColor">
+    <rect x="18" y="34" width="84" height="20" rx="10"></rect>
+    <ellipse cx="32" cy="36" rx="24" ry="17"></ellipse>
+    <ellipse cx="58" cy="24" rx="22" ry="20"></ellipse>
+    <ellipse cx="84" cy="34" rx="24" ry="18"></ellipse>
+  </g>
+</svg>

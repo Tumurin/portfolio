@@ -4,15 +4,26 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --background: #faf9f6;
-  --foreground: #14181f;
-  --card: #ffffff;
-  --card-hover: #f3f2ee;
-  --border: #e5e4e0;
-  --muted: #6b7280;
-  --accent: #92400e;
-  --accent-foreground: #ffffff;
-  --accent-soft: #fef3e2;
+  --background: #f6eeda;
+  --foreground: #2f3b2a;
+  --card: #fdf8ee;
+  --card-hover: #f7f0dd;
+  --border: #e3d8c3;
+  --muted: #7a7264;
+  --accent: #96491a;
+  --accent-foreground: #fffaf0;
+  --accent-soft: #f5e2d0;
+
+  --tag-1-bg: #e7eef0;
+  --tag-1-fg: #3f5c5f;
+  --tag-2-bg: #e8ede2;
+  --tag-2-fg: #4a5c42;
+  --tag-3-bg: #faf1dc;
+  --tag-3-fg: #7d611b;
+  --tag-4-bg: #f7e6d5;
+  --tag-4-fg: #8f4f20;
+  --tag-5-bg: #ece8e0;
+  --tag-5-fg: #6b6558;
 }
 
 .dark {
@@ -25,10 +36,22 @@
   --accent: #fbbf24;
   --accent-foreground: #0b1220;
   --accent-soft: #23200f;
+
+  --tag-1-bg: #1c2a33;
+  --tag-1-fg: #9fc4c9;
+  --tag-2-bg: #1e2a1c;
+  --tag-2-fg: #a8c79a;
+  --tag-3-bg: #302a14;
+  --tag-3-fg: #e0c479;
+  --tag-4-bg: #33200f;
+  --tag-4-fg: #e8a96b;
+  --tag-5-bg: #262a2f;
+  --tag-5-fg: #b9b3a4;
 }
 
 @theme inline {
   --font-sans: "Inter Variable", "Noto Sans TC", system-ui, sans-serif;
+  --font-serif: "Fraunces Variable", "Noto Serif TC", serif;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -65,4 +88,51 @@ html {
 [data-reveal].is-visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+.tag-chip:nth-of-type(5n + 1) {
+  background: var(--tag-1-bg);
+  color: var(--tag-1-fg);
+}
+.tag-chip:nth-of-type(5n + 2) {
+  background: var(--tag-2-bg);
+  color: var(--tag-2-fg);
+}
+.tag-chip:nth-of-type(5n + 3) {
+  background: var(--tag-3-bg);
+  color: var(--tag-3-fg);
+}
+.tag-chip:nth-of-type(5n + 4) {
+  background: var(--tag-4-bg);
+  color: var(--tag-4-fg);
+}
+.tag-chip:nth-of-type(5n + 5) {
+  background: var(--tag-5-bg);
+  color: var(--tag-5-fg);
+}
+
+/* 紙藝剪紙雲朵：頁面載入時從畫面外飄入定位 */
+.paper-cloud {
+  opacity: 0;
+  animation: cloud-drift-in 1100ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: var(--cloud-delay, 0ms);
+}
+
+@keyframes cloud-drift-in {
+  from {
+    opacity: 0;
+    transform: translate(var(--cloud-from-x, -40px), var(--cloud-from-y, -12px));
+  }
+  to {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .paper-cloud {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
 }
