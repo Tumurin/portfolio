@@ -9,8 +9,9 @@ const items = (await getCollection('portfolio')).sort(
 ---
 
 <BaseLayout title="作品集 — 我的名字">
-  <h1 class="text-2xl font-semibold text-slate-900 dark:text-slate-100">作品集</h1>
-  <div class="mt-8 flex flex-col gap-4">
+  <p class="text-sm font-medium tracking-wide text-accent">作品集</p>
+  <h1 class="mt-2 text-3xl font-bold tracking-tight text-foreground">精選作品</h1>
+  <div class="mt-10 flex flex-col gap-4">
     {items.map((item) => (
       <Card
         href={`/portfolio/${item.id}`}

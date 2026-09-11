@@ -16,8 +16,9 @@ const { Content } = await render(item);
 
 <BaseLayout title={`${item.data.title} — 我的名字`} description={item.data.description}>
   <article>
-    <h1 class="text-3xl font-semibold text-slate-900 dark:text-slate-100">{item.data.title}</h1>
-    <p class="mt-2 text-sm text-slate-400 dark:text-slate-500">
+    <a href="/portfolio" class="text-sm font-medium text-accent transition-opacity hover:opacity-80">← 回作品集列表</a>
+    <h1 class="mt-4 text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">{item.data.title}</h1>
+    <p class="mt-2 text-sm text-muted">
       {item.data.date.toLocaleDateString('zh-TW', { year: 'numeric', month: 'long', day: 'numeric' })}
     </p>
     {item.data.link && (
@@ -25,12 +26,12 @@ const { Content } = await render(item);
         href={item.data.link}
         target="_blank"
         rel="noopener noreferrer"
-        class="mt-4 inline-block text-sm text-slate-600 underline underline-offset-2 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100"
+        class="mt-4 inline-block text-sm font-medium text-accent underline underline-offset-4 transition-opacity hover:opacity-80"
       >
         專案連結 →
       </a>
     )}
-    <div class="prose prose-slate mt-8 max-w-none dark:prose-invert">
+    <div class="prose prose-neutral mt-10 max-w-none dark:prose-invert prose-a:text-accent">
       <Content />
     </div>
   </article>

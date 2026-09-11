@@ -2,3 +2,67 @@
 @plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --background: #faf9f6;
+  --foreground: #14181f;
+  --card: #ffffff;
+  --card-hover: #f3f2ee;
+  --border: #e5e4e0;
+  --muted: #6b7280;
+  --accent: #92400e;
+  --accent-foreground: #ffffff;
+  --accent-soft: #fef3e2;
+}
+
+.dark {
+  --background: #0b1220;
+  --foreground: #f5f6f3;
+  --card: #131b2e;
+  --card-hover: #182238;
+  --border: #263049;
+  --muted: #9aa3b8;
+  --accent: #fbbf24;
+  --accent-foreground: #0b1220;
+  --accent-soft: #23200f;
+}
+
+@theme inline {
+  --font-sans: "Inter Variable", "Noto Sans TC", system-ui, sans-serif;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-hover: var(--card-hover);
+  --color-border: var(--border);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent-soft: var(--accent-soft);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 400ms ease-out, transform 400ms ease-out;
+}
+
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
