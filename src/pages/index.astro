@@ -17,36 +17,38 @@ import Cloud from '../components/Cloud.astro';
     />
 
     <Cloud
-      class="absolute top-[8%] left-[6%] w-20 sm:w-28"
-      style="--cloud-from-x:-36px; --cloud-from-y:-16px; --cloud-delay:80ms;"
+      class="absolute top-[6%] left-[46%] w-16 sm:w-24"
+      style="--cloud-from-x:-28px; --cloud-from-y:-14px; --cloud-delay:80ms;"
     />
     <Cloud
-      class="absolute top-[4%] left-[36%] w-16 sm:w-24"
-      style="--cloud-from-x:-24px; --cloud-from-y:-10px; --cloud-delay:280ms;"
+      class="absolute top-[18%] left-[68%] w-20 sm:w-28"
+      style="--cloud-from-x:30px; --cloud-from-y:-10px; --cloud-delay:280ms;"
     />
     <Cloud
-      class="absolute top-[16%] right-[6%] w-24 sm:w-32"
+      class="absolute top-[8%] right-[4%] w-24 sm:w-32"
       style="--cloud-from-x:40px; --cloud-from-y:-14px; --cloud-delay:460ms;"
     />
 
-    <div class="relative z-10 flex h-full max-w-[15rem] flex-col justify-center gap-4 p-6 sm:max-w-sm sm:p-10">
-      <p class="text-sm font-medium tracking-wide text-[#96491a]">軟體工程師</p>
-      <h1 class="font-serif text-3xl leading-tight font-semibold text-[#2f3b2a] sm:text-4xl">
+    <div
+      class="slide-in-left absolute inset-y-0 left-0 z-10 flex w-full max-w-[15rem] flex-col justify-center gap-4 border-r border-border bg-card/95 p-6 backdrop-blur-sm sm:max-w-sm sm:p-10"
+    >
+      <p class="text-sm font-medium tracking-wide text-accent">軟體工程師</p>
+      <h1 class="font-serif text-3xl leading-tight font-semibold text-foreground sm:text-4xl">
         你好，世界
       </h1>
-      <p class="text-sm text-[#5c5648] sm:text-base">
+      <p class="text-sm text-muted sm:text-base">
         軟體工程師。這裡放我的作品與技術文章。
       </p>
       <div class="flex gap-3 pt-2">
         <a
           href="/portfolio"
-          class="rounded-md bg-[#96491a] px-4 py-2 text-sm font-semibold text-[#fffaf0] transition-opacity hover:opacity-90"
+          class="rounded-md bg-accent px-4 py-2 text-sm font-semibold text-accent-foreground transition-opacity hover:opacity-90"
         >
           看作品集
         </a>
         <a
           href="/blog"
-          class="rounded-md border border-[#2f3b2a]/20 px-4 py-2 text-sm font-semibold text-[#2f3b2a] transition-colors hover:border-[#2f3b2a]/40"
+          class="rounded-md border border-border px-4 py-2 text-sm font-semibold text-foreground transition-colors hover:border-accent"
         >
           看文章
         </a>
