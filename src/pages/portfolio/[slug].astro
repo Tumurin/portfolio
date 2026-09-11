@@ -14,7 +14,7 @@ const { item } = Astro.props;
 const { Content } = await render(item);
 ---
 
-<BaseLayout title={`${item.data.title} — 我的名字`} description={item.data.description}>
+<BaseLayout title={`${item.data.title} — 寬`} description={item.data.description}>
   <article>
     <a href="/portfolio" class="text-sm font-medium text-accent transition-opacity hover:opacity-80">← 回作品集列表</a>
     <h1 class="mt-4 font-serif text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">{item.data.title}</h1>
