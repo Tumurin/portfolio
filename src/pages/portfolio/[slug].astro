@@ -1,0 +1,37 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const items = await getCollection('portfolio');
+  return items.map((item) => ({
+    params: { slug: item.id },
+    props: { item },
+  }));
+}
+
+const { item } = Astro.props;
+const { Content } = await render(item);
+---
+
+<BaseLayout title={`${item.data.title} — 我的名字`} description={item.data.description}>
+  <article>
+    <h1 class="text-3xl font-semibold text-slate-900 dark:text-slate-100">{item.data.title}</h1>
+    <p class="mt-2 text-sm text-slate-400 dark:text-slate-500">
+      {item.data.date.toLocaleDateString('zh-TW', { year: 'numeric', month: 'long', day: 'numeric' })}
+    </p>
+    {item.data.link && (
+      <a
+        href={item.data.link}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="mt-4 inline-block text-sm text-slate-600 underline underline-offset-2 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100"
+      >
+        專案連結 →
+      </a>
+    )}
+    <div class="prose prose-slate mt-8 max-w-none dark:prose-invert">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>

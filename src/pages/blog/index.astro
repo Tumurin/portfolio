@@ -1,0 +1,24 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Card from '../../components/Card.astro';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+---
+
+<BaseLayout title="文章 — 我的名字">
+  <h1 class="text-2xl font-semibold text-slate-900 dark:text-slate-100">文章</h1>
+  <div class="mt-8 flex flex-col gap-4">
+    {posts.map((post) => (
+      <Card
+        href={`/blog/${post.id}`}
+        title={post.data.title}
+        description={post.data.description}
+        date={post.data.pubDate}
+        tags={post.data.tags}
+      />
+    ))}
+  </div>
+</BaseLayout>

@@ -1,0 +1,26 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="關於我 — 我的名字">
+  <h1 class="text-2xl font-semibold text-slate-900 dark:text-slate-100">關於我</h1>
+  <div class="prose prose-slate mt-6 max-w-none dark:prose-invert">
+    <p>在這裡寫自我介紹：背景、專長、正在做什麼。</p>
+  </div>
+  <div class="mt-8 flex gap-4 text-sm">
+    <a
+      href="mailto:you@example.com"
+      class="text-slate-600 underline underline-offset-2 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100"
+    >
+      Email
+    </a>
+    <a
+      href="https://github.com/"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="text-slate-600 underline underline-offset-2 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100"
+    >
+      GitHub
+    </a>
+  </div>
+</BaseLayout>

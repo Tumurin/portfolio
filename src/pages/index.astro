@@ -1,0 +1,24 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="我的名字 — 軟體工程師">
+  <h1 class="text-3xl font-semibold text-slate-900 dark:text-slate-100">你好，我是我的名字</h1>
+  <p class="mt-4 text-slate-600 dark:text-slate-400">
+    軟體工程師。這裡放我的作品與技術文章。
+  </p>
+  <div class="mt-8 flex gap-4">
+    <a
+      href="/portfolio"
+      class="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-700 dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-white"
+    >
+      看作品集
+    </a>
+    <a
+      href="/blog"
+      class="rounded-md border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-slate-400 dark:border-slate-700 dark:text-slate-300 dark:hover:border-slate-600"
+    >
+      看文章
+    </a>
+  </div>
+</BaseLayout>
