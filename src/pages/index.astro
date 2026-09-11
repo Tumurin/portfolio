@@ -1,6 +1,73 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Cloud from '../components/Cloud.astro';
+
+const caseSlugs = ['tcm-shop-three-generations', 'indie-coffee-roaster-brand', 'handmade-leather-studio'];
+const allPosts = await getCollection('blog');
+const cases = caseSlugs.map((slug) => allPosts.find((post) => post.id === slug)).filter((post) => post !== undefined);
+
+const clientTypes = ['傳統老店', '獨立品牌', '手作工作室', '餐飲空間', '文創選物', '家族企業', '社區店家', '個人接案者'];
+
+const services = [
+  {
+    n: '01',
+    tag: 'SERVICE.VISIT',
+    title: '到府蹲點訪談',
+    desc: '到你的店裡、工作室、案場，花一天到一個月的時間，實地觀察、訪談，找出你自己都說不清楚的需求。',
+    bullets: ['現場觀察與紀錄', '深度訪談逐字稿'],
+    price: 'NT$ 15,000',
+    priceNote: '起 / 常見落點 1.5–5 萬（依天數）',
+  },
+  {
+    n: '02',
+    tag: 'SERVICE.BUILD',
+    title: '客製網站設計與開發',
+    desc: '從蹲點筆記直接轉成網站設計，Astro + Tailwind 客製開發，不套模板。',
+    bullets: ['視覺設計＋前端開發', '深色模式、RWD、SEO 基礎'],
+    price: 'NT$ 60,000',
+    priceNote: '起 / 常見落點 6–15 萬',
+  },
+  {
+    n: '03',
+    tag: 'SERVICE.STORY',
+    title: '品牌故事撰寫',
+    desc: '把現場聽到、看到的細節，寫成打動人的品牌文字——不是「品質優良、值得信賴」這種空話。',
+    bullets: ['首頁與關於我文案', '案例故事撰寫'],
+    price: 'NT$ 20,000',
+    priceNote: '起 / 常見落點 2–6 萬',
+  },
+  {
+    n: '04',
+    tag: 'SERVICE.TALK',
+    title: '免費需求釐清談',
+    badge: '推薦入門',
+    desc: '還不確定要不要做網站？先聊聊，我會老實告訴你適不適合找我。',
+    bullets: ['30 分鐘線上通話', '書面建議（委託後全額折抵）'],
+    price: '免費',
+    priceNote: '委託後全額折抵',
+  },
+];
+
+const reasons = [
+  { n: '00', tag: '// PACE.SLOW', title: '慢下來的節奏', desc: '不是效率最高，但看得懂你說不出口的需求。' },
+  { n: '01', tag: '// ONSITE.REAL', title: '真的會到現場', desc: '不是線上問卷，是蹲點觀察與面對面訪談。' },
+  {
+    n: '02',
+    tag: '// STORY.HONEST',
+    title: '案例寫真實細節',
+    desc: '不寫「客戶很滿意」這種空話，每篇案例都有背景、觀察、決策、結果。',
+  },
+  { n: '03', tag: '// CRAFT.ONE', title: '設計與文字同一人做', desc: '網站視覺跟品牌文案由同一個人完成，調性不會分裂。' },
+];
+
+const steps = [
+  { n: '01', time: '3–5 天', title: '初次對話' },
+  { n: '02', time: '1 天－1 個月', title: '到場蹲點' },
+  { n: '03', time: '2–3 週', title: '設計提案' },
+  { n: '04', time: '3–6 週', title: '開發製作' },
+  { n: '05', time: '上線後 1 個月', title: '交付＋維運' },
+];
 ---
 
 <BaseLayout title="昱感網頁美學 — 軟體工程師">
@@ -53,6 +120,163 @@ import Cloud from '../components/Cloud.astro';
           看文章
         </a>
       </div>
+      <p class="text-xs text-muted">現正接案中・24 小時內回覆・提案前不主動推銷</p>
+    </div>
+  </section>
+
+  <div class="mt-16 overflow-hidden border-y border-border py-4">
+    <div class="marquee-track flex w-max items-center gap-8 text-sm font-medium tracking-wide whitespace-nowrap text-muted">
+      {Array(2)
+        .fill(clientTypes)
+        .flat()
+        .map((type) => (
+          <>
+            <span>{type}</span>
+            <span class="text-accent">・</span>
+          </>
+        ))}
+    </div>
+  </div>
+
+  <section class="mt-24">
+    <div class="flex items-center gap-2 text-xs font-semibold tracking-widest text-muted">
+      <span class="text-accent">+0</span>
+      <span>01 — SERVICES</span>
+    </div>
+    <div class="mt-4 max-w-2xl">
+      <p class="text-sm font-medium tracking-wide text-accent">SERVICES / FOUR LINES</p>
+      <h2 class="mt-2 font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+        選一條，不確定先選 04。
+      </h2>
+      <p class="mt-3 text-muted">三條主力服務，一條入門。報價先寫在前面，不適合的案子我會直接告訴你，省你時間。</p>
+    </div>
+    <ol class="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2">
+      {services.map((s) => (
+        <li class="rounded-xl border border-border bg-card p-6">
+          <div class="flex items-center justify-between">
+            <span class="font-serif text-2xl font-semibold text-accent">{s.n}</span>
+            {s.badge && (
+              <span class="rounded-full bg-accent-soft px-2 py-0.5 text-xs font-medium text-accent">{s.badge}</span>
+            )}
+          </div>
+          <p class="mt-3 text-xs font-medium tracking-widest text-muted">{s.tag}</p>
+          <h3 class="mt-1 text-lg font-semibold text-foreground">{s.title}</h3>
+          <p class="mt-2 text-sm text-muted">{s.desc}</p>
+          <ul class="mt-4 flex flex-col gap-1 text-sm text-foreground">
+            {s.bullets.map((b) => (
+              <li class="flex gap-2">
+                <span class="text-accent">+</span>
+                {b}
+              </li>
+            ))}
+          </ul>
+          <div class="mt-4 border-t border-border pt-4">
+            <p class="text-lg font-semibold text-foreground">{s.price}</p>
+            <p class="text-xs text-muted">{s.priceNote}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="mt-24">
+    <div class="max-w-2xl">
+      <p class="text-sm font-medium tracking-wide text-accent">WHY 昱感</p>
+      <h2 class="mt-2 font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+        為什麼選個人工作室，不選接案平台？
+      </h2>
+      <p class="mt-3 text-muted">因為你要的可能就在中間：比接案平台可信，比公司便宜，溝通成本是兩者之間最低的。</p>
+    </div>
+    <ul class="mt-10 grid grid-cols-1 gap-8 sm:grid-cols-2">
+      {reasons.map((r) => (
+        <li>
+          <div class="flex items-baseline gap-3">
+            <span class="font-serif text-2xl font-semibold text-muted">{r.n}</span>
+            <span class="text-xs font-medium tracking-widest text-accent">{r.tag}</span>
+          </div>
+          <h3 class="mt-2 text-lg font-semibold text-foreground">{r.title}</h3>
+          <p class="mt-1 text-sm text-muted">{r.desc}</p>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="mt-24">
+    <div class="flex items-center gap-2 text-xs font-semibold tracking-widest text-muted">
+      <span class="text-accent">+0</span>
+      <span>02 — PROCESS</span>
+    </div>
+    <div class="mt-4 max-w-2xl">
+      <p class="text-sm font-medium tracking-wide text-accent">PROCESS / 5 STEPS</p>
+      <h2 class="mt-2 font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+        你會看到我，每一步在做什麼。
+      </h2>
+      <p class="mt-3 text-muted">每階段都有具體交付物與決策點，不是簽完約就消失，上線才重新出現叫你驗收。</p>
+    </div>
+    <ol class="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-5">
+      {steps.map((s) => (
+        <li class="border-t-2 border-accent pt-4">
+          <p class="font-serif text-xl font-semibold text-foreground">{s.n}</p>
+          <p class="mt-1 text-xs text-muted">{s.time}</p>
+          <p class="mt-2 text-sm font-semibold text-foreground">{s.title}</p>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="mt-24">
+    <div class="flex items-center gap-2 text-xs font-semibold tracking-widest text-muted">
+      <span class="text-accent">+0</span>
+      <span>03 — WORKS</span>
+    </div>
+    <div class="mt-4 max-w-2xl">
+      <p class="text-sm font-medium tracking-wide text-accent">WORKS / FEATURED</p>
+      <h2 class="mt-2 font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">最近做的案子。</h2>
+      <p class="mt-3 text-muted">每個案例都寫背景、觀察、決策、結果，不寫「客戶很滿意」這種空話。</p>
+    </div>
+    <div class="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-3">
+      {cases.map((c) => (
+        <a
+          href={`/blog/${c.id}`}
+          class="group flex flex-col rounded-xl border border-border bg-card p-6 transition-colors hover:border-accent"
+        >
+          <span class="w-fit rounded-full bg-accent-soft px-2 py-0.5 text-xs font-medium text-accent">
+            {c.data.tags[1] ?? c.data.tags[0]}
+          </span>
+          <h3 class="mt-3 text-base font-semibold text-foreground transition-colors group-hover:text-accent">
+            {c.data.title}
+          </h3>
+          <p class="mt-2 flex-1 text-sm text-muted">{c.data.description}</p>
+          <p class="mt-4 text-xs text-muted">{c.data.pubDate.getFullYear()} 年</p>
+        </a>
+      ))}
+    </div>
+    <div class="mt-8">
+      <a href="/blog" class="text-sm font-semibold text-accent hover:opacity-80">看全部案例 →</a>
+    </div>
+  </section>
+
+  <section class="mt-24 rounded-2xl border border-border bg-card p-10 text-center sm:p-16">
+    <p class="text-sm font-medium tracking-wide text-accent">READY WHEN YOU ARE</p>
+    <h2 class="mx-auto mt-3 max-w-xl font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+      先聊聊你的案子，再決定要怎麼做。
+    </h2>
+    <p class="mx-auto mt-4 max-w-xl text-muted">
+      不論你是想從零做一個新網站、想把說不出口的品牌故事寫出來，或只是想知道「這樣做可不可行」——開個對話就行。
+    </p>
+    <div class="mt-8 flex flex-wrap justify-center gap-4">
+      <a
+        href="mailto:you@example.com"
+        class="rounded-md bg-accent px-5 py-2.5 text-sm font-semibold text-accent-foreground transition-opacity hover:opacity-90"
+      >
+        開始免費諮詢
+      </a>
+      <a
+        href="/blog"
+        class="rounded-md border border-border px-5 py-2.5 text-sm font-semibold text-foreground transition-colors hover:border-accent"
+      >
+        看案例 →
+      </a>
     </div>
   </section>
 </BaseLayout>
