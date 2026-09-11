@@ -1,8 +1,23 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+/*
+  預設 Tailwind 的 dark: 前綴只認系統的「深色模式」設定（prefers-color-scheme）。
+  這裡改成認 .dark 這個 class，才能讓 ThemeToggle.astro 用 JS 手動切換、
+  BaseLayout.astro 記住使用者上次選的顏色——不然使用者永遠只能跟著系統設定走，
+  自己按按鈕也沒用。
+*/
 @custom-variant dark (&:where(.dark, .dark *));
 
+/*
+  全站色票只在這裡定義一次，元件裡一律用語意化名稱
+  （bg-background、text-foreground、bg-card、border-border、text-muted、
+  bg-accent／text-accent），不要在元件裡寫死顏色（例如 bg-slate-900、#96491a）。
+  好處：以後要調色只改這裡兩個區塊，不用滿專案找哪裡寫死了顏色。
+
+  :root 是淺色模式的值，.dark 是深色模式的值——同一個變數名稱、
+  兩組不同的值，下面的 @theme inline 再把它們接進 Tailwind 的色彩系統。
+*/
 :root {
   --background: #f6eeda;
   --foreground: #2f3b2a;
@@ -49,6 +64,13 @@
   --tag-5-fg: #b9b3a4;
 }
 
+/*
+  把上面兩組 CSS 變數「接上」Tailwind v4 的色彩系統，這樣元件裡才能直接寫
+  bg-background、text-accent 這種 Tailwind class，而不用整天寫
+  style="background: var(--background)" 這種內聯樣式。
+  --font-serif 只有英文／數字字符（Fraunces 沒有中文字），中文字會自動
+  退回系統襯線字——這是刻意的取捨，裝中文襯線字型的檔案太大不划算。
+*/
 @theme inline {
   --font-sans: "Inter Variable", "Noto Sans TC", system-ui, sans-serif;
   --font-serif: "Fraunces Variable", "Noto Serif TC", serif;
@@ -111,6 +133,12 @@ html {
   }
 }
 
+/*
+  標籤（tags）五色輪替：每張卡片裡的第 1、6、11...個標籤用色 1，
+  第 2、7、12...個用色 2，以此類推——nth-of-type(5n+1) 就是「除以 5
+  餘 1」的意思。這樣同一張卡片裡相鄰的標籤顏色不會重複，
+  不需要用 JavaScript 算 index，純 CSS 就能做到。
+*/
 .tag-chip:nth-of-type(5n + 1) {
   background: var(--tag-1-bg);
   color: var(--tag-1-fg);
@@ -158,6 +186,12 @@ html {
   }
 }
 
+/*
+  跑馬燈無縫循環的技巧：index.astro 把內容重複貼了「兩份」在同一排，
+  這裡只把整排往左移動「50%」（也就是移動剛好一份內容的寬度），
+  移到底的瞬間畫面看起來跟一開始一模一樣（因為第二份頂上來了），
+  看起來就像無限循環，其實只是一直重複播同一段 26 秒的動畫。
+*/
 .marquee-track {
   animation: marquee-scroll 26s linear infinite;
 }

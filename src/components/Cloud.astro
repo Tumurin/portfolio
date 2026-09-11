@@ -1,4 +1,11 @@
 ---
+// 原圖裡的雲是扁平插畫的一部分，沒辦法單獨抽出來動，所以另外畫了這個
+// 簡易剪紙風格雲朵：四個橢圓＋一個圓角矩形疊在一起，同色無邊框，
+// 疊出來的視覺效果就像一朵完整的雲，不需要真的去做布林運算合併形狀。
+//
+// style prop 接的是外部傳進來的 CSS 變數（--cloud-from-x／-y／--cloud-delay），
+// 實際的「飄入」動畫定義在 global.css 的 .paper-cloud／@keyframes cloud-drift-in，
+// 這裡只負責畫出雲的形狀跟接住外部傳入的動畫參數。
 interface Props {
   class?: string;
   style?: string;
@@ -7,6 +14,9 @@ interface Props {
 const { class: className = '', style } = Astro.props;
 ---
 
+{/* fill="currentColor" 讓雲的顏色跟著外面套的 text-* class 走，
+    這樣同一份 SVG 才能靠 dark:text-* 在深淺模式顯示不同顏色，
+    不用畫兩份雲。 */}
 <svg
   viewBox="0 0 120 60"
   aria-hidden="true"

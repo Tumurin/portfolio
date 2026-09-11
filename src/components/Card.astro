@@ -1,4 +1,8 @@
 ---
+// 這張卡片同時給 /blog 跟 /portfolio 兩份列表頁共用。
+// blog 的內容集合沒有圖片欄位，所以圖片區塊預設不顯示（imageSlot=false）；
+// portfolio/index.astro 呼叫這個元件時會另外傳 imageSlot + image，
+// 才會多顯示一塊「有圖就顯示真圖、沒圖就顯示待補版位」的區域。
 import ImagePlaceholder from './ImagePlaceholder.astro';
 
 interface Props {
@@ -14,6 +18,8 @@ interface Props {
 const { href, title, description, date, tags = [], image, imageSlot = false } = Astro.props;
 ---
 
+{/* data-reveal：捲動到這張卡片才淡入，機制寫在 BaseLayout.astro 底部的
+    IntersectionObserver script 裡。 */}
 <a
   href={href}
   data-reveal

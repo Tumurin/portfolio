@@ -1,4 +1,7 @@
 ---
+// 頁面載入時要不要一開始就是深色模式，是 BaseLayout.astro 的 is:inline
+// script 決定的（讀 localStorage，避免閃屏）；這裡只負責「點擊之後」的切換，
+// 並把選擇寫回 localStorage，讓下次載入時那段 is:inline script 讀得到。
 ---
 
 <button
@@ -7,6 +10,8 @@
   aria-label="切換深色模式"
   class="rounded-full p-2 text-muted transition-colors duration-200 hover:bg-card hover:text-foreground"
 >
+  {/* 兩個圖示都畫出來，用 dark:block／dark:hidden 切換誰看得見，
+      而不是用 JS 動態換 icon——純 CSS 切換，沒有閃爍或延遲的問題。 */}
   <svg
     id="theme-toggle-icon-dark"
     class="hidden h-5 w-5 dark:block"

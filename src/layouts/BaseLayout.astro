@@ -22,6 +22,12 @@ const { title, description = '個人作品集與部落格' } = Astro.props;
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+    {/*
+      is:inline 讓 Astro 原封不動輸出這段 <script>，不搬去 bundle、不延後執行。
+      它必須在瀏覽器畫出第一個像素「之前」跑完，先幫 <html> 加上 .dark class，
+      不然會先看到亮色版畫面、CSS 載完才突然跳成暗色（閃屏）。
+      讀取順序：使用者上次手動選的顏色（localStorage）優先於系統設定。
+    */}
     <script is:inline>
       const theme = localStorage.getItem('theme');
       if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -35,6 +41,17 @@ const { title, description = '個人作品集與部落格' } = Astro.props;
       <slot />
     </main>
     <Footer />
+    {/*
+      這段只負責「捲動到才淡入」的效果，目標是 [data-reveal] 元素
+      （例如 Card.astro 的列表卡片）。
+      ⚠️ 首頁英雄圖的滑入面板（.slide-in-left）不會被這裡選到——它是
+      一進站就看得到的區塊（above the fold），改用 global.css 裡單純的
+      CSS @keyframes 讓它一載入就播放。曾經試過也讓它套用這裡的
+      IntersectionObserver，但面板進場動畫會先把自己推到畫面外，
+      導致觀察器永遠偵測不到它「進入畫面」而卡死不動——這是實測踩過的坑，
+      所以這兩種進場動畫刻意分成兩條不同的路。
+      rootMargin 的 -40px 讓卡片要多滑進來一點才觸發，不會一露出邊緣就跳出來。
+    */}
     <script>
       const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const targets = document.querySelectorAll('[data-reveal]');

@@ -9,7 +9,14 @@ const navItems = [
 ];
 ---
 
-<header class="sticky top-0 z-10 border-b border-border bg-background/85 backdrop-blur">
+{/*
+  z-20：這是全站黏性導覽列，捲動時必須永遠蓋在頁面內容上面。
+  首頁英雄圖裡的滑入標題面板是 z-10——兩個 z-index 一旦相等，
+  CSS 會讓「HTML 裡寫得比較後面」的贏，面板剛好排在 <Header> 後面，
+  捲動時就會蓋過導覽列。所以這裡的 z-index 要比任何頁面內容都高，
+  不能只靠「先寫的排前面」這種順序去保證疊放順序。
+*/}
+<header class="sticky top-0 z-20 border-b border-border bg-background/85 backdrop-blur">
   <div class="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
     <a href="/" class="font-bold tracking-tight text-foreground">
 昱感<span class="text-accent">.</span>

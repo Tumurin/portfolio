@@ -1,9 +1,14 @@
 ---
+// 首頁＝接案落地頁，由上到下：英雄圖 → 服務對象跑馬燈 → 四項服務 →
+// 為什麼選我 → 五步驟流程 → 精選案例（動態抓作品集最新 3 篇）→ 結尾 CTA。
+// 版面骨架深度參考 pluszero.tw，細節記在筆記庫的架構文件裡。
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Cloud from '../components/Cloud.astro';
 import ImagePlaceholder from '../components/ImagePlaceholder.astro';
 
+// 精選案例不寫死要顯示哪幾篇，改成「作品集裡日期最新的 3 篇」——
+// 之後新增案例會自動輪替上首頁，不用回來改這支檔案。
 const allCases = await getCollection('portfolio');
 const cases = allCases.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()).slice(0, 3);
 
@@ -71,6 +76,12 @@ const steps = [
 ---
 
 <BaseLayout title="昱感網頁美學 — 軟體工程師">
+  {/*
+    英雄圖：兩張蝸牛提供的剪紙插畫疊在同一個位置，靠 dark:hidden／dark:block
+    切換顯示哪一張——淺色模式看日景、深色模式看夜景，不用 JS 判斷，純 CSS。
+    原圖左上角燒進去的「CITY OF LIGHT」英文標題已經用 Pillow 蓋掉了，
+    現在的標題文字是下面那塊獨立的面板，不是圖片的一部分。
+  */}
   <section class="relative aspect-[4/5] overflow-hidden rounded-2xl border border-border shadow-sm sm:aspect-[16/9]">
     <img
       src="/images/hero-day.webp"
@@ -83,6 +94,12 @@ const steps = [
       class="absolute inset-0 hidden h-full w-full object-cover object-left dark:block"
     />
 
+    {/*
+      三朵雲手動排位置（top/left 百分比），各自用 --cloud-from-x／--cloud-from-y
+      指定從哪個方向飄進來、--cloud-delay 讓三朵不要同時飄入。
+      這些位置是配合英雄圖裡插畫的山巒／天空手動調出來的，換了別張圖
+      大概率要重新調整。
+    */}
     <Cloud
       class="absolute top-[6%] left-[46%] w-16 sm:w-24"
       style="--cloud-from-x:-28px; --cloud-from-y:-14px; --cloud-delay:80ms;"
@@ -96,6 +113,11 @@ const steps = [
       style="--cloud-from-x:40px; --cloud-from-y:-14px; --cloud-delay:460ms;"
     />
 
+    {/*
+      z-10：這塊面板只需要蓋過英雄圖跟雲朵，不需要蓋過導覽列——
+      導覽列用的是 z-20（見 Header.astro 裡的說明），比這裡高一階，
+      這樣捲動頁面時導覽列才會一直保持在最上層，不會被這塊面板蓋過去。
+    */}
     <div
       class="slide-in-left absolute inset-y-0 left-0 z-10 flex w-full max-w-[15rem] flex-col justify-center gap-4 border-r border-border bg-card/95 p-6 backdrop-blur-sm sm:max-w-sm sm:p-10"
     >
@@ -124,6 +146,13 @@ const steps = [
     </div>
   </section>
 
+  {/*
+    跑馬燈：Array(2).fill(clientTypes).flat() 把 clientTypes 這份清單重複兩次、
+    攤平成一個陣列，畫出兩份一模一樣的內容排成一長條。動畫只把整排移動
+    「50%」（也就是一份的寬度，見 global.css 的 .marquee-track），
+    移完剛好接上第二份，看起來像無限循環——這個技巧只重複「兩次」就夠了，
+    不用真的生成無限多份。
+  */}
   <div class="mt-16 overflow-hidden border-y border-border py-4">
     <div class="marquee-track flex w-max items-center gap-8 text-sm font-medium tracking-wide whitespace-nowrap text-muted">
       {Array(2)
@@ -240,6 +269,8 @@ const steps = [
           href={`/portfolio/${c.id}`}
           class="group flex flex-col rounded-xl border border-border bg-card p-6 transition-colors hover:border-accent"
         >
+          {/* coverImage 是 portfolio schema 的選填欄位；沒填就顯示「案場照片待補」版位，
+              等蝸牛補上真實照片路徑，這裡會自動換成真圖，不用改程式碼。 */}
           {c.data.coverImage ? (
             <img src={c.data.coverImage} alt="" class="h-32 w-full rounded-lg object-cover" />
           ) : (
