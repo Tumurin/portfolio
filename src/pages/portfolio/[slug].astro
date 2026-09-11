@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import ImagePlaceholder from '../../components/ImagePlaceholder.astro';
 
 export async function getStaticPaths() {
   const items = await getCollection('portfolio');
@@ -30,6 +31,11 @@ const { Content } = await render(item);
       >
         專案連結 →
       </a>
+    )}
+    {item.data.coverImage ? (
+      <img src={item.data.coverImage} alt="" class="mt-8 h-64 w-full rounded-xl object-cover sm:h-96" />
+    ) : (
+      <ImagePlaceholder class="mt-8 h-64 w-full sm:h-96" label="案場照片待補" />
     )}
     <div class="prose prose-neutral mt-10 max-w-none dark:prose-invert prose-a:text-accent">
       <Content />

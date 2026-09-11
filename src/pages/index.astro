@@ -2,10 +2,10 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Cloud from '../components/Cloud.astro';
+import ImagePlaceholder from '../components/ImagePlaceholder.astro';
 
-const caseSlugs = ['tcm-shop-three-generations', 'indie-coffee-roaster-brand', 'handmade-leather-studio'];
-const allPosts = await getCollection('blog');
-const cases = caseSlugs.map((slug) => allPosts.find((post) => post.id === slug)).filter((post) => post !== undefined);
+const allCases = await getCollection('portfolio');
+const cases = allCases.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()).slice(0, 3);
 
 const clientTypes = ['傳統老店', '獨立品牌', '手作工作室', '餐飲空間', '文創選物', '家族企業', '社區店家', '個人接案者'];
 
@@ -237,22 +237,27 @@ const steps = [
     <div class="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-3">
       {cases.map((c) => (
         <a
-          href={`/blog/${c.id}`}
+          href={`/portfolio/${c.id}`}
           class="group flex flex-col rounded-xl border border-border bg-card p-6 transition-colors hover:border-accent"
         >
-          <span class="w-fit rounded-full bg-accent-soft px-2 py-0.5 text-xs font-medium text-accent">
+          {c.data.coverImage ? (
+            <img src={c.data.coverImage} alt="" class="h-32 w-full rounded-lg object-cover" />
+          ) : (
+            <ImagePlaceholder class="h-32 w-full" />
+          )}
+          <span class="mt-4 w-fit rounded-full bg-accent-soft px-2 py-0.5 text-xs font-medium text-accent">
             {c.data.tags[1] ?? c.data.tags[0]}
           </span>
           <h3 class="mt-3 text-base font-semibold text-foreground transition-colors group-hover:text-accent">
             {c.data.title}
           </h3>
           <p class="mt-2 flex-1 text-sm text-muted">{c.data.description}</p>
-          <p class="mt-4 text-xs text-muted">{c.data.pubDate.getFullYear()} 年</p>
+          <p class="mt-4 text-xs text-muted">{c.data.date.getFullYear()} 年</p>
         </a>
       ))}
     </div>
     <div class="mt-8">
-      <a href="/blog" class="text-sm font-semibold text-accent hover:opacity-80">看全部案例 →</a>
+      <a href="/portfolio" class="text-sm font-semibold text-accent hover:opacity-80">看全部案例 →</a>
     </div>
   </section>
 

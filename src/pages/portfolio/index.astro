@@ -19,6 +19,8 @@ const items = (await getCollection('portfolio')).sort(
         description={item.data.description}
         date={item.data.date}
         tags={item.data.tags}
+        image={item.data.coverImage}
+        imageSlot
       />
     ))}
   </div>

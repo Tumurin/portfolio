@@ -1,13 +1,17 @@
 ---
+import ImagePlaceholder from './ImagePlaceholder.astro';
+
 interface Props {
   href: string;
   title: string;
   description: string;
   date?: Date;
   tags?: string[];
+  image?: string;
+  imageSlot?: boolean;
 }
 
-const { href, title, description, date, tags = [] } = Astro.props;
+const { href, title, description, date, tags = [], image, imageSlot = false } = Astro.props;
 ---
 
 <a
@@ -15,6 +19,13 @@ const { href, title, description, date, tags = [] } = Astro.props;
   data-reveal
   class="group block rounded-xl border border-border bg-card p-6 transition-colors duration-200 hover:border-accent"
 >
+  {imageSlot && (
+    image ? (
+      <img src={image} alt="" class="mb-4 h-36 w-full rounded-lg object-cover" />
+    ) : (
+      <ImagePlaceholder class="mb-4 h-36 w-full" />
+    )
+  )}
   <h2 class="text-lg font-semibold text-foreground transition-colors duration-200 group-hover:text-accent">
     {title}
   </h2>
