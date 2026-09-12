@@ -28,42 +28,42 @@ const services = [
     n: '02',
     tag: 'SERVICE.BUILD',
     title: '客製化網站設計與開發',
-    desc: '有別於大多數接案者僅會使用 WordPress 開發，我們的工程師熟練各種',
-    bullets: ['RWD、SEO、深色模式、多語言... 應有盡有', '不侷限 WordPress, Vue, React,...etc 任君挑選', '完善的資安稽核包您安心'],
+    desc: '有別於大多數接案者僅使用 WordPress 開發，我們的工程師熟練各種網站架構，依照您的需求給出最合適的解決方案。',
+    bullets: ['RWD、SEO、深色模式、多語言... 應有盡有', 'Vue, React, Sevelte...etc 任君挑選', '完善的資安稽核包您安心'],
     price: 'NT$ 100,000',
     priceNote: '專業網站開發市價估計 30 萬起',
   },
   {
     n: '03',
     tag: 'SERVICE.STORY',
-    title: '品牌故事撰寫',
-    desc: '把現場聽到、看到的細節，寫成打動人的品牌文字——不是「品質優良、值得信賴」這種空話。',
-    bullets: ['首頁與關於我文案', '案例故事撰寫'],
-    price: 'NT$ 20,000',
-    priceNote: '起 / 常見落點 2–6 萬',
+    title: '實際業務導入ＡＩ協作',
+    desc: '輔助企業將 AI 工作流導入實務運作，讓 AI 不再是極客專屬。',
+    bullets: ['AI 助手: Hermes/OpenClaw/DSH...etc', '本地 AI 部署: Qwen 3.8 27B, DeepSeek flash...etc'],
+    price: 'NT$ 300,000',
+    priceNote: '企業敏感資訊不上雲，無價',
   },
   {
     n: '04',
     tag: 'SERVICE.TALK',
     title: '免費需求釐清談',
     badge: '推薦入門',
-    desc: '還不確定要不要做網站？先聊聊，我會老實告訴你適不適合找我。',
-    bullets: ['30 分鐘線上通話', '書面建議（委託後全額折抵）'],
+    desc: '不知道做哪個？先聊聊，我會老實告訴你適不適合找我。',
+    bullets: ['30 分鐘線上通話', '不推銷，不賣任何東西'],
     price: '免費',
-    priceNote: '委託後全額折抵',
+    priceNote: '剛好我也喜歡聊天',
   },
 ];
 
 const reasons = [
-  { n: '00', tag: '// PACE.SLOW', title: '慢下來的節奏', desc: '不是效率最高，但看得懂你說不出口的需求。' },
-  { n: '01', tag: '// ONSITE.REAL', title: '真的會到現場', desc: '不是線上問卷，是蹲點觀察與面對面訪談。' },
+  { n: '01', tag: '// PACE.SLOW', title: '慢下來的節奏', desc: '不是效率最高，但看得懂你說不出口的需求。' },
+  { n: '02', tag: '// ONSITE.REAL', title: '真的會到現場', desc: '不是線上問卷，是現場考察與面對面的交流。' },
   {
-    n: '02',
-    tag: '// STORY.HONEST',
-    title: '案例寫真實細節',
-    desc: '不寫「客戶很滿意」這種空話，每篇案例都有背景、觀察、決策、結果。',
+    n: '03',
+    tag: '// COMMUNICATE',
+    title: '具有溫度的溝通',
+    desc: '需求不是透過層層文件傳遞到開發者手中，開發者會直接與您交流。',
   },
-  { n: '03', tag: '// CRAFT.ONE', title: '設計與文字同一人做', desc: '網站視覺跟品牌文案由同一個人完成，調性不會分裂。' },
+  { n: '04', tag: '// MADE.WITH.CARE', title: '用心製作', desc: '不僅僅是開發一個網站，更是傳遞人與人的溫度。' },
 ];
 
 const steps = [
@@ -135,16 +135,16 @@ const steps = [
       </p>
       <div class="flex flex-wrap gap-2 pt-1">
         <a
-          href="/portfolio"
+          href="https://line.me/ti/p/YJtWgoFAO2"
           class="rounded-md bg-accent px-3 py-1.5 text-xs font-semibold text-accent-foreground transition-opacity hover:opacity-90 sm:px-4 sm:py-2 sm:text-sm"
         >
           與我聯繫
         </a>
         <a
-          href="/blog"
+          href="/portfolio"
           class="rounded-md border border-border px-3 py-1.5 text-xs font-semibold text-foreground transition-colors hover:border-accent sm:px-4 sm:py-2 sm:text-sm"
         >
-          作品集
+          看案例 →
         </a>
       </div>
       <p class="hidden text-xs text-muted sm:block">現正接案中・24 小時內回覆。</p>
@@ -216,7 +216,7 @@ const steps = [
     <div class="max-w-2xl">
       <p class="text-sm font-medium tracking-wide text-accent">WHY 昱感</p>
       <h2 class="mt-2 font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
-        為什麼選個人工作室，不選接案平台？
+        為什麼選工作室外包，而非接案平台？
       </h2>
       <p class="mt-3 text-muted">因為你要的可能就在中間：比接案平台可信，比公司便宜，溝通成本是兩者之間最低的。</p>
     </div>
@@ -297,12 +297,12 @@ const steps = [
 
   <section class="mt-24">
     <div class="flex items-center gap-2 text-xs font-semibold tracking-widest text-muted">
-      <span>03 — WORKS</span>
+      <span>03 — Achievements</span>
     </div>
     <div class="mt-4 max-w-2xl">
       <p class="text-sm font-medium tracking-wide text-accent">WORKS / FEATURED</p>
       <h2 class="mt-2 font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">最近做的案子。</h2>
-      <p class="mt-3 text-muted">每個案例都寫背景、觀察、決策、結果，不寫「客戶很滿意」這種空話。</p>
+      <p class="mt-3 text-muted">也許...您能在這裡找到些許靈感。</p>
     </div>
     <div class="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-3">
       {cases.map((c) => (
@@ -343,13 +343,13 @@ const steps = [
     </p>
     <div class="mt-8 flex flex-wrap justify-center gap-4">
       <a
-        href="mailto:you@example.com"
+        href="https://line.me/ti/p/YJtWgoFAO2"
         class="rounded-md bg-accent px-5 py-2.5 text-sm font-semibold text-accent-foreground transition-opacity hover:opacity-90"
       >
         開始免費諮詢
       </a>
       <a
-        href="/blog"
+        href="/portfolio"
         class="rounded-md border border-border px-5 py-2.5 text-sm font-semibold text-foreground transition-colors hover:border-accent"
       >
         看案例 →
