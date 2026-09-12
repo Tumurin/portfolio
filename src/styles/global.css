@@ -212,6 +212,55 @@ html {
 }
 
 /*
+  流程時間軸（首頁「02 — PROCESS」區塊）：捲動到才播放，觸發者是
+  BaseLayout.astro 底部的 IntersectionObserver 幫 [data-timeline] 加上
+  .is-visible（跟 [data-reveal] 共用同一顆觀察器）。
+  線先用 scaleX／scaleY 從 0 長到 1（transform-origin 固定在起點，
+  才會是「畫出來」而不是從中心往兩邊長），文字淡入的 transition-delay
+  用 --step-i 這個 inline CSS 變數算，讓步驟依序一個接一個出現，
+  且刻意延後 300ms 起跳，讓線先開始畫、文字才跟上，兩個動畫感覺是
+  同一個動作接續發生，不是各自獨立同時播放。
+*/
+[data-timeline] .timeline-line-h {
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 700ms ease-out;
+}
+[data-timeline].is-visible .timeline-line-h {
+  transform: scaleX(1);
+}
+
+[data-timeline] .timeline-line-v {
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 700ms ease-out;
+}
+[data-timeline].is-visible .timeline-line-v {
+  transform: scaleY(1);
+}
+
+[data-timeline] .process-step {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 400ms ease-out, transform 400ms ease-out;
+  transition-delay: calc(var(--step-i, 0) * 120ms + 300ms);
+}
+[data-timeline].is-visible .process-step {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-timeline] .timeline-line-h,
+  [data-timeline] .timeline-line-v,
+  [data-timeline] .process-step {
+    transition: none;
+    transform: none;
+    opacity: 1;
+  }
+}
+
+/*
   深色模式切換的圓形擴散動畫（ThemeToggle.astro 的 script 負責觸發）。
   瀏覽器的 View Transitions API 預設會在新舊畫面之間做一個淡入淡出，
   這裡整個關掉（animation: none），因為我們要自己用 JS 畫一個

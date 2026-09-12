@@ -42,8 +42,11 @@ const { title, description = '個人作品集與部落格' } = Astro.props;
     </main>
     <Footer />
     {/*
-      這段只負責「捲動到才淡入」的效果，目標是 [data-reveal] 元素
-      （例如 Card.astro 的列表卡片）。
+      這段只負責「捲動到才播放」的效果，目標是 [data-reveal]（例如
+      Card.astro 的列表卡片，單純淡入＋上移）跟 [data-timeline]
+      （首頁流程時間軸，畫線＋文字依序淡入，效果定義在 global.css）。
+      兩種元素都只是加一個 .is-visible class，剩下的動畫細節各自寫在
+      對應的 CSS 規則裡，這顆觀察器不用知道兩者動畫長什麼樣子。
       ⚠️ 首頁英雄圖的滑入面板（.slide-in-left）不會被這裡選到——它是
       一進站就看得到的區塊（above the fold），改用 global.css 裡單純的
       CSS @keyframes 讓它一載入就播放。曾經試過也讓它套用這裡的
@@ -54,7 +57,7 @@ const { title, description = '個人作品集與部落格' } = Astro.props;
     */}
     <script>
       const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const targets = document.querySelectorAll('[data-reveal]');
+      const targets = document.querySelectorAll('[data-reveal], [data-timeline]');
       if (prefersReducedMotion || !('IntersectionObserver' in window)) {
         targets.forEach((el) => el.classList.add('is-visible'));
       } else {

@@ -234,6 +234,15 @@ const steps = [
     </ul>
   </section>
 
+  {/*
+    時間軸：捲動到才播放，靠 BaseLayout.astro 的 IntersectionObserver
+    幫這個 data-timeline 容器加上 .is-visible（跟 [data-reveal] 共用同一顆
+    觀察器，選取器多加一個而已）。加了 .is-visible 之後：
+    1. 桌機的水平線／手機的垂直線從 0 長到滿（scaleX／scaleY 搭配
+       transform-origin，見 global.css 的 [data-timeline] 規則）
+    2. 每個步驟的文字淡入，用 --step-i 這個 inline CSS 變數算出
+       一個接一個的 transition-delay，數字越大的步驟越晚淡入
+  */}
   <section class="mt-24">
     <div class="flex items-center gap-2 text-xs font-semibold tracking-widest text-muted">
       <span>02 — PROCESS</span>
@@ -245,15 +254,33 @@ const steps = [
       </h2>
       <p class="mt-3 text-muted">每階段都有具體交付物與決策點，不是簽完約就消失，上線才重新出現叫你驗收。</p>
     </div>
-    <ol class="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-5">
-      {steps.map((s) => (
-        <li class="border-t-2 border-accent pt-4">
-          <p class="font-serif text-xl font-semibold text-foreground">{s.n}</p>
-          <p class="mt-1 text-xs text-muted">{s.time}</p>
-          <p class="mt-2 text-sm font-semibold text-foreground">{s.title}</p>
-        </li>
-      ))}
-    </ol>
+    {/*
+      data-timeline 特地放在這個內層 wrapper，不是放在整個 <section> 上——
+      section 還包含上面的標題文字，範圍太大的話，IntersectionObserver
+      的 10% 門檻會在標題一露出來就達標，這時候真正的線跟步驟其實還在
+      畫面外，動畫會在使用者看到之前就播完，變成捲到才看到定格畫面。
+      縮小到只包這個 wrapper，動畫才會準確在「時間軸本身進入視窗」時播放。
+    */}
+    <div class="relative mt-10" data-timeline>
+      {/* 桌機：一條水平線貼齊每個步驟卡片的頂端，取代原本各自獨立的 border-t */}
+      <div class="timeline-line-h absolute inset-x-0 top-0 hidden h-0.5 bg-accent sm:block" aria-hidden="true"></div>
+      {/* 手機：一條垂直線貼著最左邊，搭配每個步驟自己的小圓點 */}
+      <div class="timeline-line-v absolute inset-y-0 left-0 w-0.5 bg-accent sm:hidden" aria-hidden="true"></div>
+
+      <ol class="grid grid-cols-1 gap-6 pl-6 sm:grid-cols-5 sm:gap-6 sm:pl-0">
+        {steps.map((s, i) => (
+          <li class="process-step relative sm:pt-4" style={`--step-i: ${i}`}>
+            <span
+              class="absolute top-1.5 -left-6 h-2 w-2 rounded-full bg-accent sm:hidden"
+              aria-hidden="true"
+            ></span>
+            <p class="font-serif text-xl font-semibold text-foreground">{s.n}</p>
+            <p class="mt-1 text-xs text-muted">{s.time}</p>
+            <p class="mt-2 text-sm font-semibold text-foreground">{s.title}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
   </section>
 
   <section class="mt-24">
