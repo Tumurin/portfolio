@@ -64,19 +64,20 @@
     const y = event.clientY;
     const endRadius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
 
-    const wasDark = document.documentElement.classList.contains('dark');
     const transition = document.startViewTransition(() => applyTheme());
 
     transition.ready.then(() => {
-      const clipPath = [`circle(0px at ${x}px ${y}px)`, `circle(${endRadius}px at ${x}px ${y}px)`];
+      // 不論深→淺還是淺→深，永遠只對「新畫面」（::view-transition-new）
+      // 動畫化 clip-path，讓它從按鈕位置的一個小圓長大到蓋滿整個視窗。
+      // ⚠️ 曾經寫成「切回淺色時改成讓舊畫面往內收合」，結果完全看不到動畫——
+      // 因為新畫面預設疊在舊畫面上面、且沒有裁切、一開始就是滿版，
+      // 不管底下的舊畫面怎麼動都會被完全蓋住。永遠動畫化「新畫面」才是對的。
       document.documentElement.animate(
-        { clipPath: wasDark ? [...clipPath].reverse() : clipPath },
+        { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${endRadius}px at ${x}px ${y}px)`] },
         {
           duration: 500,
           easing: 'ease-in-out',
-          // 切成深色：讓「新畫面」從圓心擴散蓋過去；切回淺色則反過來，
-          // 讓「舊畫面」從圓心往內收合，露出底下的新畫面。
-          pseudoElement: wasDark ? '::view-transition-old(root)' : '::view-transition-new(root)',
+          pseudoElement: '::view-transition-new(root)',
         }
       );
     });
