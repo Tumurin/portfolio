@@ -210,3 +210,17 @@ html {
     animation: none;
   }
 }
+
+/*
+  深色模式切換的圓形擴散動畫（ThemeToggle.astro 的 script 負責觸發）。
+  瀏覽器的 View Transitions API 預設會在新舊畫面之間做一個淡入淡出，
+  這裡整個關掉（animation: none），因為我們要自己用 JS 畫一個
+  從按鈕位置往外擴散的圓（clip-path），兩種動畫疊在一起會互相干擾。
+  這兩個是只有呼叫 document.startViewTransition() 時才會出現的
+  虛擬選取器，平常頁面上看不到、也不會影響其他排版。
+*/
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}

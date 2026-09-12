@@ -12,26 +12,26 @@ import ImagePlaceholder from '../components/ImagePlaceholder.astro';
 const allCases = await getCollection('portfolio');
 const cases = allCases.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()).slice(0, 3);
 
-const clientTypes = ['傳統老店', '獨立品牌', '手作工作室', '餐飲空間', '文創選物', '家族企業', '社區店家', '個人接案者'];
+const clientTypes = ['傳產升級', '獨立品牌', '手作工作室', '餐飲品牌', '文創商品', '社區形象', '個人品牌'];
 
 const services = [
   {
     n: '01',
     tag: 'SERVICE.VISIT',
-    title: '到府蹲點訪談',
-    desc: '到你的店裡、工作室、案場，花一天到一個月的時間，實地觀察、訪談，找出你自己都說不清楚的需求。',
-    bullets: ['現場觀察與紀錄', '深度訪談逐字稿'],
-    price: 'NT$ 15,000',
-    priceNote: '起 / 常見落點 1.5–5 萬（依天數）',
+    title: '一頁式網頁設計',
+    desc: '專為小型工作室、個人接案者，設計符合您產品的個性化網頁製作。',
+    bullets: ['現場觀察與需求了解', '個性化製作符合產品定位', '特殊動畫效果另外計價'],
+    price: 'NT$ 5,000',
+    priceNote: '接案網市價 1–5 萬',
   },
   {
     n: '02',
     tag: 'SERVICE.BUILD',
-    title: '客製網站設計與開發',
-    desc: '從蹲點筆記直接轉成網站設計，Astro + Tailwind 客製開發，不套模板。',
-    bullets: ['視覺設計＋前端開發', '深色模式、RWD、SEO 基礎'],
-    price: 'NT$ 60,000',
-    priceNote: '起 / 常見落點 6–15 萬',
+    title: '客製化網站設計與開發',
+    desc: '有別於大多數接案者僅會使用 WordPress 開發，我們的工程師熟練各種',
+    bullets: ['RWD、SEO、深色模式、多語言... 應有盡有', '不侷限 WordPress, Vue, React,...etc 任君挑選', '完善的資安稽核包您安心'],
+    price: 'NT$ 100,000',
+    priceNote: '專業網站開發市價估計 30 萬起',
   },
   {
     n: '03',
@@ -67,11 +67,11 @@ const reasons = [
 ];
 
 const steps = [
-  { n: '01', time: '3–5 天', title: '初次對話' },
-  { n: '02', time: '1 天－1 個月', title: '到場蹲點' },
-  { n: '03', time: '2–3 週', title: '設計提案' },
-  { n: '04', time: '3–6 週', title: '開發製作' },
-  { n: '05', time: '上線後 1 個月', title: '交付＋維運' },
+  { n: '01', time: '30分鐘~2小時', title: '線上訪談' },
+  { n: '02', time: '1 天+', title: '現場實際考察' },
+  { n: '03', time: '1–2 週', title: '設計提案' },
+  { n: '04', time: '2–4 週', title: '開發製作' },
+  { n: '05', time: '上線後', title: '產品交付與後續維護' },
 ];
 ---
 
@@ -124,7 +124,7 @@ const steps = [
       （見 Header.astro 的說明），這樣捲動時導覽列才會一直保持在最上層。
     */}
     <div
-      class="slide-in-left absolute top-3.5 left-3.5 z-10 flex h-[230px] w-[178px] flex-col justify-center gap-2.5 rounded-2xl border border-border bg-card/95 p-4 shadow-lg backdrop-blur-sm sm:top-5 sm:left-5 sm:h-[320px] sm:w-[272px] sm:gap-4 sm:p-6"
+      class="slide-in-left absolute top-0 left-0 z-10 flex h-[460px] w-[350px] flex-col justify-center gap-2.5 rounded-tl-2xl rounded-br-2xl border border-border bg-card/95 p-4 shadow-lg backdrop-blur-sm sm:top-0 sm:left-0 sm:h-[375px] sm:w-[325px] sm:gap-4 sm:p-6"
     >
       <p class="text-xs font-medium tracking-wide text-accent sm:text-sm">昱感網頁設計</p>
       <h1 class="font-serif text-xl leading-tight font-semibold text-foreground sm:text-3xl">
@@ -177,11 +177,11 @@ const steps = [
       <span>01 — SERVICES</span>
     </div>
     <div class="mt-4 max-w-2xl">
-      <p class="text-sm font-medium tracking-wide text-accent">SERVICES / FOUR LINES</p>
+      <p class="text-sm font-medium tracking-wide text-accent">WHAT 昱感</p>
       <h2 class="mt-2 font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
-        選一條，不確定先選 04。
+        我能提供您...
       </h2>
-      <p class="mt-3 text-muted">三條主力服務，一條入門。報價先寫在前面，不適合的案子我會直接告訴你，省你時間。</p>
+      <p class="mt-3 text-muted">歡迎來電洽詢，若您的產業不適合網頁設計我會直接告訴您，不讓您花一分冤枉錢。</p>
     </div>
     <ol class="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2">
       {services.map((s) => (
@@ -204,7 +204,7 @@ const steps = [
             ))}
           </ul>
           <div class="mt-4 border-t border-border pt-4">
-            <p class="text-lg font-semibold text-foreground">{s.price}</p>
+            <p class="text-lg font-semibold text-foreground">{s.price}<span class="text-xs text-muted">/起</span></p>
             <p class="text-xs text-muted">{s.priceNote}</p>
           </div>
         </li>
@@ -239,7 +239,7 @@ const steps = [
       <span>02 — PROCESS</span>
     </div>
     <div class="mt-4 max-w-2xl">
-      <p class="text-sm font-medium tracking-wide text-accent">PROCESS / 5 STEPS</p>
+      <p class="text-sm font-medium tracking-wide text-accent">HOW 昱感</p>
       <h2 class="mt-2 font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
         你會看到我，每一步在做什麼。
       </h2>
