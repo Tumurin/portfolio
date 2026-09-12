@@ -262,10 +262,22 @@ const steps = [
       縮小到只包這個 wrapper，動畫才會準確在「時間軸本身進入視窗」時播放。
     */}
     <div class="relative mt-10" data-timeline>
-      {/* 桌機：一條水平線貼齊每個步驟卡片的頂端，取代原本各自獨立的 border-t */}
-      <div class="timeline-line-h absolute inset-x-0 top-0 hidden h-0.5 bg-accent sm:block" aria-hidden="true"></div>
-      {/* 手機：一條垂直線貼著最左邊，搭配每個步驟自己的小圓點 */}
-      <div class="timeline-line-v absolute inset-y-0 left-0 w-0.5 bg-accent sm:hidden" aria-hidden="true"></div>
+      {/*
+        桌機：一條水平線貼齊每個步驟卡片的頂端，取代原本各自獨立的 border-t，
+        尾端的箭頭是它自己的子元素（CSS border 三角形），跟著這個 div 的
+        scaleX 一起動——線長多長，箭頭就在多前面，不用另外控制箭頭的時機。
+      */}
+      <div class="timeline-line-h absolute inset-x-0 top-0 hidden h-0.5 bg-accent sm:block" aria-hidden="true">
+        <span
+          class="absolute top-1/2 right-0 h-0 w-0 -translate-y-1/2 border-y-4 border-y-transparent border-l-[7px] border-l-accent"
+        ></span>
+      </div>
+      {/* 手機：一條垂直線貼著最左邊，搭配每個步驟自己的小圓點；箭頭同理是子元素跟著 scaleY 一起動 */}
+      <div class="timeline-line-v absolute inset-y-0 left-0 w-0.5 bg-accent sm:hidden" aria-hidden="true">
+        <span
+          class="absolute bottom-0 left-1/2 h-0 w-0 -translate-x-1/2 border-x-4 border-x-transparent border-t-[7px] border-t-accent"
+        ></span>
+      </div>
 
       <ol class="grid grid-cols-1 gap-6 pl-6 sm:grid-cols-5 sm:gap-6 sm:pl-0">
         {steps.map((s, i) => (
