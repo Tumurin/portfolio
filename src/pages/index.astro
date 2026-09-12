@@ -114,35 +114,40 @@ const steps = [
     />
 
     {/*
-      z-10：這塊面板只需要蓋過英雄圖跟雲朵，不需要蓋過導覽列——
-      導覽列用的是 z-20（見 Header.astro 裡的說明），比這裡高一階，
-      這樣捲動頁面時導覽列才會一直保持在最上層，不會被這塊面板蓋過去。
+      定位／尺寸是拿實際插畫的留白區域量出來的，不是隨便給的數字：
+      把英雄圖用 object-fit:cover 的邏輯換算成桌機／手機兩種容器尺寸下
+      實際看到的裁切範圍，再用程式逐行掃描找出留白紙面跟畫面主體
+      （彩虹／101／山巒）的邊界，取「從左上角能放進去的最大矩形」，
+      卡片就設成這個尺寸——盡量貼滿留白，同時不壓到畫面主體。
+      換掉英雄圖或大幅調整版面寬度時，這組數字要重新核對。
+      z-10：只需要蓋過英雄圖跟雲朵，不需要蓋過導覽列——導覽列是 z-20
+      （見 Header.astro 的說明），這樣捲動時導覽列才會一直保持在最上層。
     */}
     <div
-      class="slide-in-left absolute inset-y-0 left-0 z-10 flex w-full max-w-[15rem] flex-col justify-center gap-4 border-r border-border bg-card/95 p-6 backdrop-blur-sm sm:max-w-sm sm:p-10"
+      class="slide-in-left absolute top-3.5 left-3.5 z-10 flex h-[230px] w-[178px] flex-col justify-center gap-2.5 rounded-2xl border border-border bg-card/95 p-4 shadow-lg backdrop-blur-sm sm:top-5 sm:left-5 sm:h-[320px] sm:w-[272px] sm:gap-4 sm:p-6"
     >
-      <p class="text-sm font-medium tracking-wide text-accent">軟體工程師</p>
-      <h1 class="font-serif text-3xl leading-tight font-semibold text-foreground sm:text-4xl">
-        你好，我是昱感網頁美學
+      <p class="text-xs font-medium tracking-wide text-accent sm:text-sm">昱感網頁設計</p>
+      <h1 class="font-serif text-xl leading-tight font-semibold text-foreground sm:text-3xl">
+        你好，世界
       </h1>
-      <p class="text-sm text-muted sm:text-base">
+      <p class="text-xs text-muted sm:text-base">
         2026 年，AI 能在三分鐘生出一個網站。我選擇不那麼快——花時間走進你的現場，把說不出口的需求聽懂。
       </p>
-      <div class="flex gap-3 pt-2">
+      <div class="flex flex-wrap gap-2 pt-1">
         <a
           href="/portfolio"
-          class="rounded-md bg-accent px-4 py-2 text-sm font-semibold text-accent-foreground transition-opacity hover:opacity-90"
+          class="rounded-md bg-accent px-3 py-1.5 text-xs font-semibold text-accent-foreground transition-opacity hover:opacity-90 sm:px-4 sm:py-2 sm:text-sm"
         >
-          看作品集
+          與我聯繫
         </a>
         <a
           href="/blog"
-          class="rounded-md border border-border px-4 py-2 text-sm font-semibold text-foreground transition-colors hover:border-accent"
+          class="rounded-md border border-border px-3 py-1.5 text-xs font-semibold text-foreground transition-colors hover:border-accent sm:px-4 sm:py-2 sm:text-sm"
         >
-          看文章
+          作品集
         </a>
       </div>
-      <p class="text-xs text-muted">現正接案中・24 小時內回覆・提案前不主動推銷</p>
+      <p class="hidden text-xs text-muted sm:block">現正接案中・24 小時內回覆。</p>
     </div>
   </section>
 
@@ -169,7 +174,6 @@ const steps = [
 
   <section class="mt-24">
     <div class="flex items-center gap-2 text-xs font-semibold tracking-widest text-muted">
-      <span class="text-accent">+0</span>
       <span>01 — SERVICES</span>
     </div>
     <div class="mt-4 max-w-2xl">
@@ -232,7 +236,6 @@ const steps = [
 
   <section class="mt-24">
     <div class="flex items-center gap-2 text-xs font-semibold tracking-widest text-muted">
-      <span class="text-accent">+0</span>
       <span>02 — PROCESS</span>
     </div>
     <div class="mt-4 max-w-2xl">
@@ -255,7 +258,6 @@ const steps = [
 
   <section class="mt-24">
     <div class="flex items-center gap-2 text-xs font-semibold tracking-widest text-muted">
-      <span class="text-accent">+0</span>
       <span>03 — WORKS</span>
     </div>
     <div class="mt-4 max-w-2xl">
