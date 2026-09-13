@@ -25,11 +25,14 @@ const { href, title, description, date, tags = [], image, imageSlot = false } = 
   data-reveal
   class="group block rounded-xl border border-border bg-card p-6 transition-colors duration-200 hover:border-accent"
 >
+  {/* aspect-[4/3] 而不是固定 h-36：固定高度配上不同寬高比的來源圖，
+      object-cover 裁掉的比例會忽大忽小（正方形截圖曾經被切掉大半）。
+      比例框讓裁切幅度可預期，換圖時也不用重新調整高度數字。 */}
   {imageSlot && (
     image ? (
-      <img src={image} alt="" class="mb-4 h-36 w-full rounded-lg object-cover" />
+      <img src={image} alt="" class="mb-4 aspect-[4/3] w-full rounded-lg object-cover" />
     ) : (
-      <ImagePlaceholder class="mb-4 h-36 w-full" />
+      <ImagePlaceholder class="mb-4 aspect-[4/3] w-full" />
     )
   )}
   <h2 class="text-lg font-semibold text-foreground transition-colors duration-200 group-hover:text-accent">

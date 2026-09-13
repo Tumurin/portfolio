@@ -5,7 +5,7 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Cloud from '../components/Cloud.astro';
-import ImagePlaceholder from '../components/ImagePlaceholder.astro';
+import Card from '../components/Card.astro';
 
 // 精選案例不寫死要顯示哪幾篇，改成「作品集裡日期最新的 3 篇」——
 // 之後新增案例會自動輪替上首頁，不用回來改這支檔案。
@@ -304,28 +304,23 @@ const steps = [
       <h2 class="mt-2 font-serif text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">最近做的案子。</h2>
       <p class="mt-3 text-muted">也許...您能在這裡找到些許靈感。</p>
     </div>
+    {/*
+      跟 portfolio/index.astro 共用同一個 Card 元件，不是各自手刻一份卡片
+      標記——版面（圖片比例、間距、字級）本來就該長一樣，兩份手刻的
+      HTML 遲早會被改到不一致（首頁之前是 h-32、作品集頁是 h-36，
+      裁切幅度不同，蝸牛一眼就看出兩邊卡片長得不一樣）。
+    */}
     <div class="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-3">
       {cases.map((c) => (
-        <a
+        <Card
           href={`/portfolio/${c.id}`}
-          class="group flex flex-col rounded-xl border border-border bg-card p-6 transition-colors hover:border-accent"
-        >
-          {/* coverImage 是 portfolio schema 的選填欄位；沒填就顯示「案場照片待補」版位，
-              等蝸牛補上真實照片路徑，這裡會自動換成真圖，不用改程式碼。 */}
-          {c.data.coverImage ? (
-            <img src={c.data.coverImage} alt="" class="h-32 w-full rounded-lg object-cover" />
-          ) : (
-            <ImagePlaceholder class="h-32 w-full" />
-          )}
-          <span class="mt-4 w-fit rounded-full bg-accent-soft px-2 py-0.5 text-xs font-medium text-accent">
-            {c.data.tags[1] ?? c.data.tags[0]}
-          </span>
-          <h3 class="mt-3 text-base font-semibold text-foreground transition-colors group-hover:text-accent">
-            {c.data.title}
-          </h3>
-          <p class="mt-2 flex-1 text-sm text-muted">{c.data.description}</p>
-          <p class="mt-4 text-xs text-muted">{c.data.date.getFullYear()} 年</p>
-        </a>
+          title={c.data.title}
+          description={c.data.description}
+          date={c.data.date}
+          tags={c.data.tags}
+          image={c.data.coverImage}
+          imageSlot
+        />
       ))}
     </div>
     <div class="mt-8">

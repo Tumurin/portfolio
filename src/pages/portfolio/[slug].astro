@@ -32,10 +32,13 @@ const { Content } = await render(item);
         專案連結 →
       </a>
     )}
+    {/* aspect-video（16:9）而不是固定 h-64/h-96：banner 是寬版大圖，用比例框
+        裁切幅度才會跟著寬度合理縮放，不會像固定高度那樣，圖片來源比例
+        差很多時（例如正方形截圖）裁掉一大截。 */}
     {item.data.coverImage ? (
-      <img src={item.data.coverImage} alt="" class="mt-8 h-64 w-full rounded-xl object-cover sm:h-96" />
+      <img src={item.data.coverImage} alt="" class="mt-8 aspect-video w-full rounded-xl object-cover" />
     ) : (
-      <ImagePlaceholder class="mt-8 h-64 w-full sm:h-96" label="案場照片待補" />
+      <ImagePlaceholder class="mt-8 aspect-video w-full" label="案場照片待補" />
     )}
     <div class="prose prose-neutral mt-10 max-w-none dark:prose-invert prose-a:text-accent">
       <Content />
