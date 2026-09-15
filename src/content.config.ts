@@ -56,8 +56,10 @@ const repos = defineCollection({
 const about = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/about' }),
   schema: z.object({
-    role: z.string(),
-    tagline: z.string(),
+    heading: z.string(),
+    summary: z.string(),
+    // 一個陣列項目＝一段。段落裡想換行就在 YAML 用 |- 區塊寫成多行，
+    // 前台用 whitespace-pre-line 原樣呈現，不必在內容裡寫 <br>。
     intro: z.array(z.string()).default([]),
     photo: z.string().optional(),
     lineUrl: z.string().url(),

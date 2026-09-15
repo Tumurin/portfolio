@@ -24,24 +24,22 @@ const repos = (await getCollection('repos'))
   }));
 ---
 
-<BaseLayout title="關於我 — 昱感網頁美學" description={me.tagline}>
+<BaseLayout title="關於我 — 昱感網頁美學" description={me.summary}>
   {/* ① 自我介紹＋大頭照 */}
   <section class="grid gap-12 md:grid-cols-[1.4fr_1fr] md:items-center">
     <div>
       <p class="text-sm font-medium tracking-wide text-accent">關於我</p>
       <h1 class="mt-2 font-serif text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
-        {me.role}
+        {me.heading}
       </h1>
-      <p class="mt-5 text-lg leading-relaxed text-foreground">{me.tagline}</p>
 
-      <ul class="mt-7 space-y-2.5">
-        {me.intro.map((line) => (
-          <li class="flex gap-2.5 text-sm leading-relaxed text-muted">
-            <span class="mt-px text-accent" aria-hidden="true">+</span>
-            <span>{line}</span>
-          </li>
+      {/* whitespace-pre-line：段落內的換行照 about.md 裡寫的呈現，
+          內容那邊就不必摻 <br> 這種排版標記。 */}
+      <div class="mt-8 space-y-5">
+        {me.intro.map((paragraph) => (
+          <p class="leading-relaxed whitespace-pre-line text-foreground">{paragraph}</p>
         ))}
-      </ul>
+      </div>
 
       <div class="mt-9 flex flex-wrap gap-3">
         <a
