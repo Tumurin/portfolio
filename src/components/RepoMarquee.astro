@@ -1,0 +1,115 @@
+---
+// 專案卡一橫排。放得下就靜止，放不下才跑馬燈——蝸牛要的是「依螢幕寬度
+// 盡可能多放，超過的才滾動出現」，不是無條件一直跑。
+//
+// DOM 裡永遠畫兩份卡片，第二份標記 data-repo-clone。要不要顯示第二份由
+// script 量完寬度才決定：無縫循環需要「下一份接在上一份後面」，只有一份
+// 的話捲到底會露出空白。
+import RepoCard from './RepoCard.astro';
+
+interface Props {
+  repos: {
+    slug: string;
+    title: string;
+    description: string;
+    coverImage?: string;
+  }[];
+}
+
+const { repos } = Astro.props;
+---
+
+<div data-repo-marquee class="repo-marquee">
+  <div data-repo-track class="repo-track flex w-max items-stretch gap-6 py-1">
+    {repos.map((repo) => (
+      <div class="shrink-0">
+        <RepoCard
+          href={`/repos/${repo.slug}`}
+          title={repo.title}
+          description={repo.description}
+          image={repo.coverImage}
+        />
+      </div>
+    ))}
+    {/* 第二份只是為了接縫，對輔助技術與鍵盤完全隱形：aria-hidden 讓螢幕
+        報讀器不要念兩次，inert 讓 Tab 不會跑進看不見的重複連結裡。 */}
+    {repos.map((repo) => (
+      <div class="shrink-0" data-repo-clone aria-hidden="true" inert>
+        <RepoCard
+          href={`/repos/${repo.slug}`}
+          title={repo.title}
+          description={repo.description}
+          image={repo.coverImage}
+        />
+      </div>
+    ))}
+  </div>
+</div>
+
+<script>
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  // 每秒捲動幾個 px。固定速度而不是固定秒數——卡片多的時候如果還跑同樣
+  // 的秒數，就會愈多張捲得愈快。
+  const SPEED = 40;
+
+  document.querySelectorAll<HTMLElement>('[data-repo-marquee]').forEach((wrap) => {
+    const track = wrap.querySelector<HTMLElement>('[data-repo-track]');
+    if (!track) return;
+
+    const clones = Array.from(track.querySelectorAll<HTMLElement>('[data-repo-clone]'));
+
+    function layout() {
+      if (!track) return;
+
+      // 先收起複本再量，量到的才是「只有原始卡片」的寬度。
+      clones.forEach((clone) => {
+        clone.hidden = true;
+      });
+      track.classList.remove('is-scrolling');
+      wrap.classList.remove('is-overflowing');
+
+      const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+      const baseWidth = track.scrollWidth;
+      const fits = baseWidth <= wrap.clientWidth + 1;
+
+      if (fits) return;
+      wrap.classList.add('is-overflowing');
+
+      // 使用者要求減少動態效果時不跑動畫，改成可以自己橫向捲。
+      // 不能只把動畫時間壓到 0——那會讓卡片瞬間跳到終點，比不動更糟。
+      if (prefersReducedMotion.matches) return;
+
+      clones.forEach((clone) => {
+        clone.hidden = false;
+      });
+
+      // 位移量＝一份卡片的寬度再加一個 gap。用 -50% 會少半個 gap：
+      // 兩份卡片排在同一個 flex 容器裡時，中間那道 gap 也被算進總寬，
+      // 取一半就不等於一份內容的長度，接縫會愈跑愈偏。
+      const shift = baseWidth + gap;
+      track.style.setProperty('--marquee-shift', `${shift}px`);
+      track.style.setProperty('--marquee-duration', `${shift / SPEED}s`);
+      track.classList.add('is-scrolling');
+    }
+
+    layout();
+
+    // 字型延後載入會改變卡片內文字的高度與寬度，載完要重量一次。
+    document.fonts?.ready.then(layout);
+
+    let resizeTimer: number | undefined;
+    window.addEventListener('resize', () => {
+      window.clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(layout, 150);
+    });
+
+    prefersReducedMotion.addEventListener('change', layout);
+
+    // 手指按住時暫停。桌機靠 CSS 的 :hover／:focus-within 就夠，觸控螢幕
+    // 沒有 hover，不接這一段的話卡片會在手指按下去的當下繼續移動。
+    wrap.addEventListener('pointerdown', () => wrap.classList.add('is-paused'));
+    window.addEventListener('pointerup', () => wrap.classList.remove('is-paused'));
+    window.addEventListener('pointercancel', () => wrap.classList.remove('is-paused'));
+  });
+</script>

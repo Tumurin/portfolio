@@ -265,6 +265,50 @@ html {
 }
 
 /*
+  關於我頁的專案卡跑馬燈（RepoMarquee.astro）。動不動、跑多快，全由該元件
+  的 script 量完寬度後決定：放得下就不加 .is-scrolling，這裡什麼事都不做。
+  位移量 --marquee-shift 與時間 --marquee-duration 也由 script 寫進來——
+  卡片寬度、數量、間距都是執行時才知道的，CSS 算不出來。
+*/
+.repo-marquee {
+  overflow: hidden;
+}
+
+.repo-track.is-scrolling {
+  animation: repo-marquee-scroll var(--marquee-duration, 30s) linear infinite;
+}
+
+/* 會動的東西點不到。滑鼠移上去、鍵盤 focus 進去、手指按住（script 加的
+   .is-paused）三種情況都要停下來。 */
+.repo-marquee:hover .repo-track.is-scrolling,
+.repo-marquee:focus-within .repo-track.is-scrolling,
+.repo-marquee.is-paused .repo-track.is-scrolling {
+  animation-play-state: paused;
+}
+
+@keyframes repo-marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-1 * var(--marquee-shift, 0px)));
+  }
+}
+
+/* 減少動態效果時改成使用者自己橫向捲。全域那條把所有 animation-duration
+   壓成 0.01ms 的規則對跑馬燈是有害的——它會讓卡片瞬間跳到終點，所以這裡
+   要明確關掉動畫而不是加速它。 */
+@media (prefers-reduced-motion: reduce) {
+  .repo-track {
+    animation: none !important;
+    transform: none !important;
+  }
+  .repo-marquee.is-overflowing {
+    overflow-x: auto;
+  }
+}
+
+/*
   導覽列按下去的漣漪（Header.astro 的 script 在 pointerdown 時插入一個
   .nav-ripple，動畫播完自己移除）。圓心＝手指／游標實際碰到的位置，
   尺寸與定位由 JS 寫成 inline style，這裡只負責「怎麼擴散」。

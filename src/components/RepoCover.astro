@@ -1,0 +1,74 @@
+---
+// 沒有真實截圖的專案，用這張程式產生的向量封面頂替。
+//
+// 為什麼不產生 PNG：PNG 是一張固定的圖，深色模式下要嘛太亮要嘛得再備一張。
+// 這裡整張圖都用全站既有的 CSS 變數上色（--card-hover、--tag-N-bg、--accent），
+// 所以切換深淺模式時封面會跟著換色，而且不必管理圖檔。
+// 之後在該篇 .md 的 frontmatter 填 coverImage，畫面就自動換成真圖。
+//
+// 圖形是一組抽象的「程式碼列」。每一列的寬度由標題字串的雜湊決定——
+// 同一個標題永遠畫出同一張圖（build 是靜態的，不能用亂數，不然每次
+// 重新建置封面都會變），不同標題則明顯不一樣。
+interface Props {
+  title: string;
+  class?: string;
+}
+
+const { title, class: className = '' } = Astro.props;
+
+// djb2 雜湊。不需要加密強度，只需要「同輸入同輸出」且分佈夠散。
+function hash(input: string): number {
+  let h = 5381;
+  for (let i = 0; i < input.length; i += 1) {
+    h = ((h << 5) + h + input.charCodeAt(i)) >>> 0;
+  }
+  return h;
+}
+
+const seed = hash(title);
+
+// 五條長短不一的程式碼列。每條的寬度取雜湊的不同區段，落在 88～248 之間；
+// 縮排取兩段固定值，讓圖看起來像有層次的程式碼而不是等寬色條。
+const rows = Array.from({ length: 5 }, (_, i) => {
+  const bits = (seed >> (i * 5)) & 0x1f; // 每列取 5 個 bit，0～31
+  return {
+    width: 88 + (bits / 31) * 160,
+    indent: i === 0 ? 0 : ((seed >> (i * 3)) & 0x1) * 18,
+    // 第幾號標籤色（1～5）。用 --tag-N-fg 不用 --tag-N-bg：bg 那組在深色模式
+    // 是深色，畫在同樣深色的 --card-hover 上幾乎看不見；fg 那組在兩種模式
+    // 下都是為了「畫在對應底色上仍然讀得到」而調的，拿來當圖形色才有對比。
+    tone: ((seed >> (i * 2)) % 5) + 1,
+  };
+});
+
+// 其中一列改用強調色，讓整張圖有個視覺落點；選哪一列同樣由雜湊決定。
+const accentRow = seed % rows.length;
+---
+
+<svg
+  viewBox="0 0 320 240"
+  role="img"
+  aria-label={`${title} 的封面圖`}
+  class={className}
+  preserveAspectRatio="xMidYMid slice"
+>
+  <rect width="320" height="240" fill="var(--card-hover)" />
+
+  {/* 視窗標題列的三個圓點，讓整張圖一眼看得出是「程式」而不是抽象裝飾 */}
+  {[0, 1, 2].map((i) => (
+    <circle cx={32 + i * 18} cy={36} r="5" fill={`var(--tag-${(i % 5) + 1}-fg)`} opacity="0.55" />
+  ))}
+  <line x1="24" y1="58" x2="296" y2="58" stroke="var(--border)" stroke-width="1" />
+
+  {rows.map((row, i) => (
+    <rect
+      x={28 + row.indent}
+      y={84 + i * 26}
+      width={row.width}
+      height="12"
+      rx="6"
+      fill={i === accentRow ? 'var(--accent)' : `var(--tag-${row.tone}-fg)`}
+      opacity={i === accentRow ? '0.9' : '0.55'}
+    />
+  ))}
+</svg>

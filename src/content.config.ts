@@ -31,4 +31,59 @@ const portfolio = defineCollection({
   }),
 });
 
-export const collections = { blog, portfolio };
+// 專案：關於我頁的卡片與各自的站內內頁。
+// githubUrl 是 .optional()——私有 repo 不填，內頁就不會長出一個點了會 404
+// 的「看原始碼」按鈕。coverImage 同樣選填，留空時 RepoCover.astro 會用
+// 標題的雜湊畫一張跟著深淺模式走的向量封面。
+const repos = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/repos' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    order: z.number(),
+    tech: z.array(z.string()).default([]),
+    coverImage: z.string().optional(),
+    githubUrl: z.string().url().optional(),
+  }),
+});
+
+// 關於我：整份履歷只有這一個檔。結構化的欄位（學歷、技能、經歷）寫在
+// frontmatter，自傳那種長文寫在本文——長文放 frontmatter 會失去 markdown
+// 排版，結構化資料寫進本文則沒辦法讓 astro check 幫忙擋漏欄位。
+//
+// 🔴 這份檔案刻意不含姓名、Email、電話、居住城市。聯絡方式只有 LINE 與
+// GitHub 兩個連結，新增欄位時不要把個資加回來。
+const about = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/about' }),
+  schema: z.object({
+    role: z.string(),
+    tagline: z.string(),
+    intro: z.array(z.string()).default([]),
+    photo: z.string().optional(),
+    lineUrl: z.string().url(),
+    githubUrl: z.string().url(),
+    education: z
+      .array(
+        z.object({
+          school: z.string(),
+          program: z.string(),
+          period: z.string(),
+        })
+      )
+      .default([]),
+    skills: z.array(z.string()).default([]),
+    others: z.array(z.string()).default([]),
+    experience: z
+      .array(
+        z.object({
+          org: z.string(),
+          role: z.string().optional(),
+          period: z.string(),
+          highlights: z.array(z.string()).default([]),
+        })
+      )
+      .default([]),
+  }),
+});
+
+export const collections = { blog, portfolio, repos, about };

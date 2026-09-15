@@ -1,0 +1,33 @@
+---
+// 關於我頁的專案卡：上面一張圖，下面標題＋一句說明。
+//
+// 寬度寫死 w-64 而不是讓它隨內容伸縮：這張卡會被排進一橫排的跑馬燈，
+// 每張一樣寬，位移量才算得準、捲動起來節奏才穩定。
+import RepoCover from './RepoCover.astro';
+
+interface Props {
+  href: string;
+  title: string;
+  description: string;
+  image?: string;
+}
+
+const { href, title, description, image } = Astro.props;
+---
+
+<a
+  href={href}
+  class="group block w-64 shrink-0 overflow-hidden rounded-xl border border-border bg-card transition-colors duration-200 hover:border-accent"
+>
+  {image ? (
+    <img src={image} alt="" class="aspect-[4/3] w-full object-cover" />
+  ) : (
+    <RepoCover title={title} class="aspect-[4/3] w-full" />
+  )}
+  <div class="p-4">
+    <h3 class="text-base font-semibold text-foreground transition-colors duration-200 group-hover:text-accent">
+      {title}
+    </h3>
+    <p class="mt-1 text-sm leading-relaxed text-muted">{description}</p>
+  </div>
+</a>
