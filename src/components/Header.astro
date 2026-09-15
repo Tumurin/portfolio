@@ -1,12 +1,37 @@
 ---
 import ThemeToggle from './ThemeToggle.astro';
 
+// 圖標一律用 Heroicons v1 outline 的路徑（24×24 viewBox、stroke-width 2），
+// 跟 ThemeToggle 的太陽／月亮同一套，線條粗細與圓角才會看起來是一家人。
 const navItems = [
-  { href: '/', label: '首頁' },
-  { href: '/portfolio', label: '作品集' },
-  { href: '/blog', label: '文章' },
-  { href: '/about', label: '關於我' },
+  {
+    href: '/',
+    label: '首頁',
+    icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6',
+  },
+  {
+    href: '/portfolio',
+    label: '作品集',
+    icon: 'M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z',
+  },
+  {
+    href: '/blog',
+    label: '文章',
+    icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z',
+  },
+  {
+    href: '/about',
+    label: '關於我',
+    icon: 'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z',
+  },
 ];
+
+// 內頁（/portfolio/某案例、/blog/某篇）也要讓它所屬的那個分頁亮起來，
+// 所以不是只比對相等，還要看「開頭是不是這一段路徑」。
+// 首頁例外：'/' 是所有路徑的開頭，只能用完全相等判斷。
+const pathname = Astro.url.pathname.replace(/\/+$/, '') || '/';
+const isActive = (href: string) =>
+  href === '/' ? pathname === '/' : pathname === href || pathname.startsWith(`${href}/`);
 ---
 
 {/*
@@ -17,21 +42,125 @@ const navItems = [
   不能只靠「先寫的排前面」這種順序去保證疊放順序。
 */}
 <header class="sticky top-0 z-20 border-b border-border bg-background/85 backdrop-blur">
-  <div class="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
-    <a href="/" class="font-bold tracking-tight text-foreground">
+  <div class="mx-auto flex max-w-5xl items-center justify-between px-4 py-4 sm:px-6">
+    <a href="/" class="text-sm font-bold tracking-tight text-foreground sm:text-base">
     昱感網頁設計
     <span class="text-accent">.</span>
     </a>
-    <nav class="flex items-center gap-6">
-      {navItems.map((item) => (
-        <a
-          href={item.href}
-          class="text-sm text-muted transition-colors duration-200 hover:text-foreground"
-        >
-          {item.label}
-        </a>
-      ))}
+    <nav class="flex items-center gap-1 sm:gap-2">
+      {/*
+        relative：底下那條 #nav-indicator 是絕對定位的，要以這個容器為座標原點。
+        ThemeToggle 刻意留在這個容器外面——指示條只在四個分頁之間滑動，
+        不該把切換深色模式的按鈕也算進可以滑過去的位置。
+      */}
+      <div id="site-nav" class="relative flex items-center">
+        {navItems.map((item) => (
+          <a
+            href={item.href}
+            data-nav-item
+            data-active={isActive(item.href) ? 'true' : 'false'}
+            aria-label={item.label}
+            aria-current={isActive(item.href) ? 'page' : undefined}
+            class="relative flex items-center justify-center overflow-hidden rounded-lg p-2.5 text-muted transition-[color,transform] duration-200 hover:text-foreground active:scale-90 data-[active=true]:text-foreground sm:px-3 sm:py-2"
+          >
+            {/*
+              指示條的寬度是量這個 span 量出來的，不是量整個 <a>。
+              量 <a> 的話寬度會含左右 padding，線會比文字／圖標長一截。
+            */}
+            <span data-nav-body class="flex items-center">
+              {/* 手機顯示線條圖標、桌機顯示文字，兩份都畫出來用 CSS 切換，
+                  不用 JS 判斷視窗寬度，轉螢幕方向也不會有延遲。 */}
+              <svg
+                class="h-5 w-5 sm:hidden"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={item.icon} />
+              </svg>
+              <span class="hidden text-sm sm:inline">{item.label}</span>
+            </span>
+          </a>
+        ))}
+        <span
+          id="nav-indicator"
+          class="pointer-events-none absolute bottom-0 left-0 h-0.5 w-0 rounded-full bg-accent opacity-0 transition-[transform,width,opacity] duration-300 ease-out"
+          aria-hidden="true"
+        ></span>
+      </div>
       <ThemeToggle />
     </nav>
   </div>
 </header>
+
+{/*
+  指示條為什麼要用 JS 定位，不能純 CSS：
+  每個分頁的文字寬度不一樣（「首頁」兩個字、「作品集」三個字），
+  而且手機是圖標、桌機是文字，寬度隨斷點改變——純 CSS 沒辦法讓一條
+  共用的線知道自己該多長、該站在哪。所以量現場尺寸再寫進 style。
+
+  這是多頁靜態網站，每點一次就是整頁重新載入，指示條不可能「跨頁面滑動」。
+  折衷做法：點下去的當下先就地把線滑到被點的那一個（頁面還在載入中，
+  使用者看得到回饋），新頁面載入後再用 instant 模式把線直接放到定位。
+*/}
+<script>
+  const nav = document.getElementById('site-nav');
+  const indicator = document.getElementById('nav-indicator');
+  const links = nav ? Array.from(nav.querySelectorAll<HTMLElement>('[data-nav-item]')) : [];
+  const activeLink = links.find((link) => link.dataset.active === 'true') ?? null;
+
+  function moveIndicator(link: HTMLElement | null, animate: boolean) {
+    if (!nav || !indicator) return;
+
+    if (!link) {
+      indicator.style.opacity = '0';
+      return;
+    }
+
+    const body = link.querySelector<HTMLElement>('[data-nav-body]') ?? link;
+    const navRect = nav.getBoundingClientRect();
+    const bodyRect = body.getBoundingClientRect();
+
+    // animate=false 時要「瞬間」定位。先關掉 transition、改完再讀一次
+    // offsetWidth 強迫瀏覽器結算這次排版，才不會在下一幀被合併成一段動畫。
+    if (!animate) indicator.style.transition = 'none';
+    indicator.style.width = `${bodyRect.width}px`;
+    indicator.style.transform = `translateX(${bodyRect.left - navRect.left}px)`;
+    indicator.style.opacity = '1';
+    if (!animate) {
+      void indicator.offsetWidth;
+      indicator.style.transition = '';
+    }
+  }
+
+  moveIndicator(activeLink, false);
+
+  // 字型是延後載入的，載完文字寬度會變，指示條要重新量一次才不會長度對不上。
+  document.fonts?.ready.then(() => moveIndicator(activeLink, false));
+
+  // 改變視窗寬度會跨過 sm 斷點（圖標↔文字），寬度整個換一組，必須重量。
+  window.addEventListener('resize', () => moveIndicator(activeLink, false));
+
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  links.forEach((link) => {
+    // pointerdown 而不是 click：手指一碰就要有反應，不必等放開。
+    link.addEventListener('pointerdown', (event) => {
+      moveIndicator(link, true);
+      if (prefersReducedMotion.matches) return;
+
+      // 漣漪從實際觸碰點長出來，跟深色模式切換的圓形擴散是同一套語言。
+      const rect = link.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height) * 2;
+      const ripple = document.createElement('span');
+      ripple.className = 'nav-ripple';
+      ripple.style.width = `${size}px`;
+      ripple.style.height = `${size}px`;
+      ripple.style.left = `${event.clientX - rect.left - size / 2}px`;
+      ripple.style.top = `${event.clientY - rect.top - size / 2}px`;
+      link.appendChild(ripple);
+      ripple.addEventListener('animationend', () => ripple.remove());
+    });
+  });
+</script>

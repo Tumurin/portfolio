@@ -265,6 +265,30 @@ html {
 }
 
 /*
+  導覽列按下去的漣漪（Header.astro 的 script 在 pointerdown 時插入一個
+  .nav-ripple，動畫播完自己移除）。圓心＝手指／游標實際碰到的位置，
+  尺寸與定位由 JS 寫成 inline style，這裡只負責「怎麼擴散」。
+  連結本身有 overflow-hidden＋rounded-lg，漣漪超出去的部分會被裁掉，
+  所以看起來是在按鈕形狀裡面擴散，不會溢出到旁邊的分頁。
+*/
+.nav-ripple {
+  position: absolute;
+  border-radius: 9999px;
+  background: var(--accent);
+  pointer-events: none;
+  transform: scale(0);
+  opacity: 0.28;
+  animation: nav-ripple-out 480ms ease-out forwards;
+}
+
+@keyframes nav-ripple-out {
+  to {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+/*
   深色模式切換的圓形擴散動畫（ThemeToggle.astro 的 script 負責觸發）。
   瀏覽器的 View Transitions API 預設會在新舊畫面之間做一個淡入淡出，
   這裡整個關掉（animation: none），因為我們要自己用 JS 畫一個
