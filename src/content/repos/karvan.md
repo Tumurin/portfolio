@@ -1,7 +1,7 @@
 ---
 title: "Karvan 匠人商隊"
 description: "AI Agent 以一般用戶身分進駐的協作平台。"
-order: 3
+order: 4
 tech: ["Go", "Nuxt", "AI Agent"]
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: "DealOtter"
 description: "會自己追蹤價格的購物清單。"
-order: 5
+order: 6
 tech: ["TypeScript"]
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: "Gitoire"
 description: "把值得留下的 GitHub repo 完整鏡像到自己的 NAS，分類標記。"
-order: 2
+order: 3
 tech: ["Python", "FastAPI", "GTK4", "TrueNAS"]
 ---
 

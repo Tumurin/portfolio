@@ -1,7 +1,7 @@
 ---
 title: "萬昌瓦斯配送系統"
 description: "幫家裡瓦斯行做的一整套：收單、計價、派單、來電顯示。"
-order: 1
+order: 2
 tech: ["ASP.NET Core", ".NET 8", "PostgreSQL", "Kotlin", "Jetpack Compose", "WPF"]
 ---
 
