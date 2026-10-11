@@ -32,8 +32,8 @@ coverImage: "/images/repos/paw-reunion/cover.webp"
 首頁一句話說明三個步驟：上傳照片、確認劇本、等待重逢。版面以手機優先設計（大部分人是拿手機翻相簿上傳的），桌面版同樣一眼看完。
 
 <figure>
-  <img src="/images/repos/paw-reunion/home-desktop.png" alt="毛孩重逢桌面版首頁：給想念的牠，再見牠一面，以及上傳照片、確認劇本、等待重逢三個步驟" width="1425" height="926" />
-  <figcaption>桌面版首頁。排隊名額公開顯示，一次只做一件。</figcaption>
+  <img src="/images/repos/paw-reunion/home-desktop.png" alt="毛孩重逢桌面版首頁：再見牠一面的標語、三個步驟，以及最近的重逢作品牆" width="1425" height="1799" />
+  <figcaption>桌面版首頁。排隊名額公開顯示，一次只做一件；下方是最近完成的重逢影片。</figcaption>
 </figure>
 
 上傳頁的每個框都有一張淡淡的剪影示範圖，像證件照上傳頁那樣，告訴你該放什麼樣的照片：
@@ -57,15 +57,26 @@ coverImage: "/images/repos/paw-reunion/cover.webp"
   <figcaption>影片頁。</figcaption>
 </figure>
 
-這是實際生成的成片畫面（20 秒、3 段），旺來從山溪邊的岩石上跑出來：
+這是實際生成的一支成片（20 秒、3 段），標題是「旺來從花草堆跑出來」。AI 把它排成三段：主人在湖邊等待、旺來在山溪邊出現、跑回主人身邊。
 
 <figure>
-  <img src="/images/repos/paw-reunion/frame-a.webp" alt="成片畫面：旺來站在山溪邊的岩石上" width="1024" height="576" />
+  <img src="/images/repos/paw-reunion/frame-1-wait.webp" alt="成片第 1 秒：主人站在開滿花的湖邊等待" width="1024" height="576" />
+  <figcaption>第一段：主人在湖邊等。</figcaption>
 </figure>
 
 <figure>
-  <img src="/images/repos/paw-reunion/frame-b.webp" alt="成片畫面：旺來在岩石上轉身" width="1024" height="576" />
-  <figcaption>成片截圖。整段只有一隻毛孩，花色跟上傳的照片一致。</figcaption>
+  <img src="/images/repos/paw-reunion/frame-2-run.webp" alt="成片第 9 秒：旺來站在山溪邊的岩石上" width="1024" height="576" />
+  <figcaption>第二段：換場景硬切，旺來在山溪邊出現。</figcaption>
+</figure>
+
+<figure>
+  <img src="/images/repos/paw-reunion/frame-3-leap.webp" alt="成片第 16 秒：旺來撲向蹲下的主人" width="1024" height="576" />
+  <figcaption>第三段：回到湖邊，旺來撲向主人。</figcaption>
+</figure>
+
+<figure>
+  <img src="/images/repos/paw-reunion/frame-4-hug.webp" alt="成片第 18.5 秒：主人抱住旺來，旺來湊上去蹭他的臉" width="1024" height="576" />
+  <figcaption>重逢。整支影片只有一隻毛孩，花色跟上傳的照片一致。</figcaption>
 </figure>
 
 ## 技術做法
