@@ -29,11 +29,11 @@ coverImage: "/images/repos/paw-reunion/cover.webp"
 
 ## 實際功能展示
 
-首頁一句話說明三個步驟：上傳照片、確認劇本、等待重逢。網站用手機設計，因為大部分人是拿手機翻相簿上傳的。
+首頁一句話說明三個步驟：上傳照片、確認劇本、等待重逢。版面以手機優先設計（大部分人是拿手機翻相簿上傳的），桌面版同樣一眼看完。
 
 <figure>
-  <img src="/images/repos/paw-reunion/home.png" alt="毛孩重逢首頁：給想念的牠，再見牠一面，以及上傳照片、確認劇本、等待重逢三個步驟" width="390" height="1373" class="mx-auto" />
-  <figcaption>首頁。排隊名額公開顯示，一次只做一件。</figcaption>
+  <img src="/images/repos/paw-reunion/home-desktop.png" alt="毛孩重逢桌面版首頁：給想念的牠，再見牠一面，以及上傳照片、確認劇本、等待重逢三個步驟" width="1425" height="926" />
+  <figcaption>桌面版首頁。排隊名額公開顯示，一次只做一件。</figcaption>
 </figure>
 
 上傳頁的每個框都有一張淡淡的剪影示範圖，像證件照上傳頁那樣，告訴你該放什麼樣的照片：
